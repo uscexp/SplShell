@@ -1,10 +1,7 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
-
 
 /**
  * Command implementation for the <code>SplParser</code> rule: formalParameters.
@@ -15,8 +12,8 @@ public class AstFormalParametersTreeNode<V >
 {
 
 
-    public AstFormalParametersTreeNode(Node<?> node, String value) {
-		super(node, value);
+    public AstFormalParametersTreeNode(String rule, String value) {
+		super(rule, value);
     }
 
     @Override

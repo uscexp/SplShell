@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
 
@@ -12,8 +10,8 @@ import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
  */
 public class AstReadStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstReadStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstReadStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

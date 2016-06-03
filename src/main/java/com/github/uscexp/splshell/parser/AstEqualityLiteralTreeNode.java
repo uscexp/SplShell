@@ -1,17 +1,15 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: equalityLiteral.
  */
 public class AstEqualityLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstEqualityLiteralTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstEqualityLiteralTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

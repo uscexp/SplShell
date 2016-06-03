@@ -1,13 +1,11 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
 import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
@@ -23,8 +21,8 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 
 	private MethodSignature methodSignature;
 
-	public AstMethodCallStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstMethodCallStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

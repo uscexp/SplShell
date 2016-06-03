@@ -6,8 +6,6 @@ package com.github.uscexp.splshell.parser;
 import java.util.List;
 import java.util.Stack;
 
-import org.parboiled.Node;
-
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
 
 /**
@@ -15,8 +13,8 @@ import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
  */
 public class AstVarDeclarationTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstVarDeclarationTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstVarDeclarationTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

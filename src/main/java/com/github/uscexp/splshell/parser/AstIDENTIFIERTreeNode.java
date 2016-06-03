@@ -5,15 +5,13 @@ package com.github.uscexp.splshell.parser;
 
 import java.util.Stack;
 
-import org.parboiled.Node;
-
 /**
  * Command implementation for the <code>SplParser</code> rule: IDENTIFIER.
  */
 public class AstIDENTIFIERTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstIDENTIFIERTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstIDENTIFIERTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

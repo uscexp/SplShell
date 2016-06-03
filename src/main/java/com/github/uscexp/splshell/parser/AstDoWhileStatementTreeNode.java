@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 
@@ -12,8 +10,8 @@ import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
  */
 public class AstDoWhileStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstDoWhileStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstDoWhileStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

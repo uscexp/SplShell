@@ -7,8 +7,6 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import org.parboiled.Node;
-
 import com.github.uscexp.splshell.interpreter.SplInterpreter;
 
 /**
@@ -18,8 +16,8 @@ public class AstIncludeStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	private String path;
 
-	public AstIncludeStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstIncludeStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

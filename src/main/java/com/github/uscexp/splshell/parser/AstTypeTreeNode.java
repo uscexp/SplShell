@@ -1,11 +1,9 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
 import java.util.Stack;
-
-import org.parboiled.Node;
 
 
 /**
@@ -17,8 +15,8 @@ public class AstTypeTreeNode<V >
 {
 
 
-    public AstTypeTreeNode(Node<?> node, String value) {
-		super(node, value);
+    public AstTypeTreeNode(String rule, String value) {
+		super(rule, value);
     }
 
     @Override

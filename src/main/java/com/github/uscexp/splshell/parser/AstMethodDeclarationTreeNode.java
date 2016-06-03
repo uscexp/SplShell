@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.parboiled.Node;
-
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
@@ -21,8 +19,8 @@ import com.github.uscexp.splshell.interpreter.ScriptMethodDefinition;
  */
 public class AstMethodDeclarationTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstMethodDeclarationTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstMethodDeclarationTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override
@@ -56,13 +54,13 @@ public class AstMethodDeclarationTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	}
 
 	@Override
-	public void interpretIt(Long id) throws Exception {
+	public void interpretIt(Long id, boolean forewardOrder) throws Exception {
 	    if( !ProcessStore.getInstance(id).checkPrecondition())
 	        return;
 	    interpretBeforeChilds(id);
 	    int i = 0;
 	    for (i = 0; i < 2; i++) {
-	    	getChildren().get(i).interpretIt(id);
+	    	getChildren().get(i).interpretIt(id, forewardOrder);
 		}
 	    Stack<Object> stack = ProcessStore.getInstance(id).getTierStack();
 	    stack.push(getChildren().get(i));

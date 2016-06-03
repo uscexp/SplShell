@@ -3,13 +3,13 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.parboiled.Parboiled;
-import org.parboiled.errors.ErrorUtils;
-import org.parboiled.parserunners.RecoveringParseRunner;
-import org.parboiled.support.ParsingResult;
+
+import com.github.fge.grappa.Grappa;
+import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.grappa.extension.parser.Parser;
 
 /**
  * @author haui
@@ -34,16 +34,10 @@ public class SplParserTest {
 				"\r\n" + 
 				"write fact;\r\n";
 
-		SplParser parser = Parboiled.createParser(SplParser.class);
-		RecoveringParseRunner<SplParser> recoveringParseRunner = new RecoveringParseRunner<>(parser.compilationUnit());
-		
-		ParsingResult<SplParser> parsingResult = recoveringParseRunner.run(input);
-		
-		if(parsingResult.hasErrors()) {
-			System.err.println(String.format("Input parse error(s): %s", ErrorUtils.printParseErrors(parsingResult)));
-		}
-		
-		assertFalse(parsingResult.hasErrors());
+		SplParser parser = Grappa.createParser(SplParser.class);
+		AstTreeNode<String> rootNode = Parser.parseInput(SplParser.class, parser.compilationUnit(), input, true);
+
+		assertNotNull(rootNode);
 	}
 
 }

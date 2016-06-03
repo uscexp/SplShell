@@ -1,17 +1,15 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: block.
  */
 public class AstBlockStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstBlockStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstBlockStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

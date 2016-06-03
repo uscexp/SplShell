@@ -20,16 +20,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.parboiled.Parboiled;
-import org.parboiled.errors.ErrorUtils;
-import org.parboiled.parserunners.RecoveringParseRunner;
-import org.parboiled.support.ParsingResult;
-
+import com.github.fge.grappa.Grappa;
 import com.github.uscexp.blockformatpropertyfile.PropertyFile;
 import com.github.uscexp.blockformatpropertyfile.PropertyStruct;
 import com.github.uscexp.blockformatpropertyfile.exception.PropertyFileException;
 import com.github.uscexp.grappa.extension.interpreter.AstInterpreter;
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
+import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.grappa.extension.parser.Parser;
 import com.github.uscexp.splshell.exception.SplShellException;
 import com.github.uscexp.splshell.parser.SplParser;
 
@@ -51,7 +49,7 @@ public class SplInterpreter {
     private static SplInterpreter instance = new SplInterpreter();
 
     private SplInterpreter() {
-        parser = Parboiled.createParser(SplParser.class);
+        parser = Grappa.createParser(SplParser.class);
     }
 
     public static SplInterpreter getInstance() {
@@ -112,15 +110,14 @@ public class SplInterpreter {
     
     public void executeFromStringInput(String input, String[] args, Long id)
         throws SplShellException {
-        ParsingResult<SplParser> parsingResult = parseStringInput(input);
-        //              System.out.println(ParseTreeUtils.printNodeTree(parsingResult));
+        AstTreeNode<String> rootNode = Parser.parseInput(SplParser.class, parser.compilationUnit(), input, true);
 
         OutputStream astTreePrintStream = null;
         AstInterpreter<String> astInterpreter;
 
         astTreePrintStream = System.out;
 
-        astInterpreter = new AstInterpreter<>(true, astTreePrintStream);
+        astInterpreter = new AstInterpreter<>(astTreePrintStream);
 
         Long internalId = new Date().getTime();
         if(id != null)
@@ -132,24 +129,13 @@ public class SplInterpreter {
             if (args != null) {
                 processStore.setGlobalVariable(ARGUMENTS, args);
             }
-            astInterpreter.interpretForewardOrder(parser.getClass(), parsingResult, internalId);
+            astInterpreter.interpretForewardOrder(SplParser.class, rootNode, internalId);
         } catch (Exception e) {
             throw new SplShellException("SplShell interpretation error!", e);
         } finally {
         	if(id == null)
         		astInterpreter.cleanUp(internalId);
         }
-    }
-
-    private ParsingResult<SplParser> parseStringInput(String input)
-        throws SplShellException {
-        RecoveringParseRunner<SplParser> recoveringParseRunner = new RecoveringParseRunner<>(parser.compilationUnit());
-        ParsingResult<SplParser> parsingResult = recoveringParseRunner.run(input);
-
-        if (parsingResult.hasErrors()) {
-            throw new SplShellException(String.format("SplShell input parse error(s): %s", ErrorUtils.printParseErrors(parsingResult)));
-        }
-        return parsingResult;
     }
 
     protected Map<String, MethodDefinition> loadMappedMethods()

@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
@@ -13,8 +11,8 @@ import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
  */
 public class AstForStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstForStatementTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstForStatementTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override
@@ -41,7 +39,7 @@ public class AstForStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 					}
 					// ForUpdate
 					if (updateNode != null)
-						updateNode.interpretIt(id);
+						updateNode.interpretIt(id, true);
 				}
 			}
 		} while (!exit);

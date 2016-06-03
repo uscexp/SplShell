@@ -3,15 +3,13 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import org.parboiled.Node;
-
 /**
  * Command implementation for the <code>SplParser</code> rule: mainMethodDeclarator.
  */
 public class AstMainMethodDeclaratorTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstMainMethodDeclaratorTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstMainMethodDeclaratorTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

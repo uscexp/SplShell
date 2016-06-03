@@ -1,12 +1,10 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
@@ -20,8 +18,8 @@ public class AstBaseCommandTreeNode<V> extends AstCommandTreeNode<V> {
 
 	protected ProcessStore<Object> processStore;
 
-	public AstBaseCommandTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstBaseCommandTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

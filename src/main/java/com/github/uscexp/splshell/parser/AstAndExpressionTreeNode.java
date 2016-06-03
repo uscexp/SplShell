@@ -1,17 +1,15 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
-
-import org.parboiled.Node;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: andExpression.
  */
 public class AstAndExpressionTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstAndExpressionTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstAndExpressionTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

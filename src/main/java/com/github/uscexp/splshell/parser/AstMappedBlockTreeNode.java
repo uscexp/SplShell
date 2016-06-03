@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 by haui - all rights reserved
+ * Copyright (C) 2014 - 2016 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
@@ -8,8 +8,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.parboiled.Node;
 
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
 
@@ -24,8 +22,8 @@ public class AstMappedBlockTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	private String typeName;
 	private String returnType;
 
-	public AstMappedBlockTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstMappedBlockTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

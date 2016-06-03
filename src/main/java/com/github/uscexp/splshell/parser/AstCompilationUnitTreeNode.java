@@ -3,16 +3,14 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import org.parboiled.Node;
-
 /**
  * Command implementation for the <code>SplParser</code> rule: compilationUnit.
  * 
  */
 public class AstCompilationUnitTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	public AstCompilationUnitTreeNode(Node<?> node, String value) {
-		super(node, value);
+	public AstCompilationUnitTreeNode(String rule, String value) {
+		super(rule, value);
 	}
 
 	@Override

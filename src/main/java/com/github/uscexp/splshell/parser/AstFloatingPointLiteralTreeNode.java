@@ -1,9 +1,6 @@
 
 package com.github.uscexp.splshell.parser;
 
-import org.parboiled.Node;
-
-
 /**
  * Command implementation for the <code>SplParser</code> rule: floatingPointLiteral.
  * 
@@ -13,8 +10,8 @@ public class AstFloatingPointLiteralTreeNode<V >
 {
 
 
-    public AstFloatingPointLiteralTreeNode(Node<?> node, String value) {
-        super(node, value);
+    public AstFloatingPointLiteralTreeNode(String rule, String value) {
+        super(rule, value);
     }
 
     @Override
