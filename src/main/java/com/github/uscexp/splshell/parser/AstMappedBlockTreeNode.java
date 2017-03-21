@@ -49,7 +49,7 @@ public class AstMappedBlockTreeNode<V> extends AstBaseCommandTreeNode<V> {
 				clazzs[i] = params[i].getClass();
 			} else {
 				Primitive primitive = new Primitive(String.class /* getClassFromType(type) */);
-				primitive.setValue(value);
+				primitive.setObjectValue(value);
 				primitives[i] = primitive;
 				params[i] = primitive.getValue();
 				clazzs[i] = primitives[i].getPrimitiveType();
@@ -90,7 +90,7 @@ public class AstMappedBlockTreeNode<V> extends AstBaseCommandTreeNode<V> {
 					int type = 0; //getType( returnType);
 					for (int i = 0; i < Array.getLength(returnObj); ++i) {
 						primitive = new Primitive(String.class /* getClassFromType( type) */);
-						primitive.setValue(Array.get(returnObj, i));
+						primitive.setObjectValue(Array.get(returnObj, i));
 						list.add(primitive);
 					}
 					retVal = list;
@@ -100,7 +100,7 @@ public class AstMappedBlockTreeNode<V> extends AstBaseCommandTreeNode<V> {
 						if (returnType != null) {
 							int type = 0; //getType( returnType);
 							primitive = new Primitive(String.class /* getClassFromType( type) */);
-							primitive.setValue(returnObj);
+							primitive.setObjectValue(returnObj);
 						} else {
 							primitive = new Primitive(returnObj);
 						}

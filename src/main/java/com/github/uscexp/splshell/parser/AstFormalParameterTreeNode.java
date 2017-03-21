@@ -46,7 +46,7 @@ public class AstFormalParameterTreeNode<V >
         else
         {
           Primitive primitive = processStore.getPrimitiveVariable( name);
-          primitive.setValue( value);
+          primitive.setObjectValue( value);
           processStore.setVariable( name, primitive);
         }
 	}

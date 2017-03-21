@@ -6,52 +6,50 @@ package com.github.uscexp.splshell.parser;
 import java.util.ArrayList;
 
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.splshell.util.ArrayUtil;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: arrayId.
  */
 public class AstArrayIdTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
-	private String name;
-	private int dim;
-	private Primitive[] primitiveIdxs;
-
 	public AstArrayIdTreeNode(String rule, String value) {
 		super(rule, value);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void interpretAfterChilds(Long id)
 		throws Exception {
 		super.interpretAfterChilds(id);
-		ArrayList<Object> list = (ArrayList<Object>) processStore.getVariable(name);
-		Object value = null;
-		primitiveIdxs = new Primitive[dim];
-		int i = 0;
-		int ii = dim - 1;
-
-		for (ii = dim - 1; (ii + dim) >= dim; --ii) {
-			primitiveIdxs[ii] = new Primitive(processStore.getTierStack().pop());
+		int idx = value.indexOf('[');
+		String name = value.substring(0, idx).trim();
+		Object variable = processStore.getVariable(name);
+		if(variable instanceof Primitive) {
+			variable = ((Primitive)variable).getValue();
 		}
-		for (i = 0; i < dim; ++i) {
-			if ((i + 1) < dim)
-				list = (ArrayList<Object>) list.get(primitiveIdxs[i].getIntegerValue());
-			else {
-				if (primitiveIdxs[i].getIntegerValue() >= list.size()) {
-					expandArray(primitiveIdxs[i].getIntegerValue(), list);
-				}
-				value = list.get(primitiveIdxs[i].getIntegerValue());
+		int dim = idx > 0 ? 1 : 0;
+		while ((idx = value.indexOf("[", idx+1)) > 0) {
+			++dim;
+		}
+		int[] indices = new int[dim];
+		int i = dim - 1;
+
+		for (i = dim - 1; (i + dim) >= dim; --i) {
+			Object idxValue = processStore.getTierStack().pop();
+			if(idxValue instanceof Primitive) {
+				indices[i] = ((Primitive)idxValue).getIntegerValue();
+			} else {
+				indices[i] = (int)idxValue;
 			}
 		}
-		if (value instanceof ArrayList)
-			processStore.getTierStack().push(value);
-		else
-			processStore.getTierStack().push(((Primitive) value).getValue());
+		Object result = ArrayUtil.getArrayValue(variable, indices);
+		// remove var name from stack
+		processStore.getTierStack().pop();
+		processStore.getTierStack().push(result);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object setArrayValue(Long id, Object value) {
+	public Object setArrayValue(Long id, String name, Object value, int dim, Primitive[] primitiveIdxs) {
 		ArrayList<Object> list = (ArrayList<Object>) processStore.getVariable(name);
 		Object object = list;
 		int i = 0;
@@ -61,7 +59,7 @@ public class AstArrayIdTreeNode<V> extends AstBaseCommandTreeNode<V> {
 		}
 		expandArray(primitiveIdxs[i].getIntegerValue(), list);
 		Primitive primitive = (Primitive) list.get(primitiveIdxs[i].getIntegerValue());
-		primitive.setValue(value);
+		primitive.setObjectValue(value);
 		list.set(primitiveIdxs[i].getIntegerValue(), primitive);
 		return object;
 	}

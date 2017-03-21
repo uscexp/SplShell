@@ -22,24 +22,21 @@ public class AstAssignmentTreeNode<V> extends AstBaseCommandTreeNode<V> {
 		super.interpretAfterChilds(id);
 		String name = null;
 
-		Object object = processStore.getTierStack().peek();
+		Object object = processStore.getTierStack().pop();
 
-		name = "";
-
-		{
-			processStore.getTierStack().pop();
-			name = "";
-			object = null;
-		}
+		name = (String)processStore.getTierStack().pop();
 
 		if (object instanceof ArrayList) {
 			@SuppressWarnings({ "unchecked" })
 			ArrayList<Object> list = (ArrayList<Object>) processStore.getVariable(name);
 			processStore.setVariable(name, object);
 		} else {
-			Primitive primitive = processStore.getPrimitiveVariable(name);
-			primitive.setValue(processStore.getTierStack().peek());
-			processStore.setVariable(name, primitive);
+			Object variableValue = processStore.getVariable(name);
+			if(object instanceof Primitive)
+				variableValue = (Primitive)object;
+			else
+				variableValue = Primitive.createValue(object);
+			processStore.setVariable(name, variableValue);
 		}
 	}
 

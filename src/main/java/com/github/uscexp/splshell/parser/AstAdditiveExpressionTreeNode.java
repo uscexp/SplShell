@@ -3,9 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import java.util.Stack;
-
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: additiveExpression.
@@ -21,7 +20,7 @@ public class AstAdditiveExpressionTreeNode<V> extends AstBaseCommandTreeNode<V> 
 		throws Exception {
 		super.interpretAfterChilds(id);
 		if(!isFirstChildAnExpression()) {
-			Stack<Object> stack = processStore.getTierStack();
+			IStack<Object> stack = processStore.getTierStack();
 			Primitive result = null;
 			Primitive v2 = new Primitive(stack.pop());
 			if(!stack.isEmpty()) {

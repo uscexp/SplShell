@@ -21,7 +21,6 @@ public class AstStatementExpressionTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        System.out.println("StatementExpression");;
     }
 
 }

@@ -8,6 +8,7 @@
 /*
 method openFile  // filereader openFile(string filepath)
 {
+  params = { "string" };
   type = "java.io.FileReader";
   realMethod = "constructor";  // call constructor in this case
   static = false;
@@ -18,6 +19,7 @@ method openFile  // filereader openFile(string filepath)
 
 method openFileToRead  // filereader openFileToRead(string) aliasname to be used in SplShell
 {
+  params = { "string" };
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "createBufferedReader";  // method name in real object (java.lang.String)
   static = true;
@@ -27,6 +29,7 @@ method openFileToRead  // filereader openFileToRead(string) aliasname to be used
 
 method openFileToWrite  // filereader openFileToWrite(string filepath,boolean append)
 {
+  params = { "string", "boolean" };
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "createBufferedWriter";
   static = true;
@@ -36,6 +39,7 @@ method openFileToWrite  // filereader openFileToWrite(string filepath,boolean ap
 
 method readLine  // string readLine( filereader)
 {
+  params = { "filereader" };
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "readLine";
   static = true;
@@ -45,6 +49,7 @@ method readLine  // string readLine( filereader)
 
 method writeString  // void writeString( filewriter, string)
 {
+  params = { "filewriter", "string" };
   type = "java.io.BufferedWriter";
   realMethod = "write";
   static = false;
@@ -54,6 +59,7 @@ method writeString  // void writeString( filewriter, string)
 
 method isEOF  // string isEOF()
 {
+  params = {};
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "isEOF";
   static = true;
@@ -63,6 +69,7 @@ method isEOF  // string isEOF()
 
 method isCharEOF  // string isCharEOF()
 {
+  params = {};
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "isCharEOF";
   static = true;
@@ -72,6 +79,7 @@ method isCharEOF  // string isCharEOF()
 
 method readChar  // string readChar( filereader)
 {
+  params = { "filereader" };
   type = "java.io.BufferedReader";
   realMethod = "read";
   static = false;
@@ -81,6 +89,7 @@ method readChar  // string readChar( filereader)
 
 method closeFileReader  // void closeFileReader(filereader)
 {
+  params = { "filereader" };
   type = "java.io.BufferedReader";
   realMethod = "close";
   static = false;
@@ -90,6 +99,7 @@ method closeFileReader  // void closeFileReader(filereader)
 
 method closeFileWriter  // void closeFileWriter(filewriter)
 {
+  params = { "filewriter" };
   type = "java.io.BufferedWriter";
   realMethod = "close";
   static = false;
@@ -101,6 +111,7 @@ method closeFileWriter  // void closeFileWriter(filewriter)
 
 method arrayLength  // int arrayLength(array)
 {
+  params = { "object[]" };
   type = "com.github.uscexp.splshell.util.HelperMethods";
   realMethod = "arrayLength";
   static = true;
@@ -115,6 +126,7 @@ method arrayLength  // int arrayLength(array)
 
 method substr  // string substr(string,int,int)
 {
+  params = { "string", "int", "int" };
   type = "java.lang.String";
   realMethod = "substring";  // method name in real object (java.lang.String)
   static = false;
@@ -124,6 +136,7 @@ method substr  // string substr(string,int,int)
 
 method strlen  // int strlen(string)
 {
+  params = { "string" };
   type = "java.lang.String";
   realMethod = "length";
   static = false;
@@ -133,6 +146,7 @@ method strlen  // int strlen(string)
 
 method charArray  // char[] charArray(string)
 {
+  params = { "string" };
   type = "java.lang.String";
   realMethod = "toCharArray";
   static = false;
@@ -142,6 +156,7 @@ method charArray  // char[] charArray(string)
 
 method strCharIndexOf  // int strIndexOf(string, char ch, int fromIndex)
 {
+  params = { "string", "char", "int" };
   type = "java.lang.String";
   realMethod = "indexOf";
   static = false;
@@ -151,6 +166,7 @@ method strCharIndexOf  // int strIndexOf(string, char ch, int fromIndex)
 
 method strCharLastIndexOf  // int strLastIndexOf(string, char ch, int fromIndex)
 {
+  params = { "string", "char", "int" };
   type = "java.lang.String";
   realMethod = "lastIndexOf";
   static = false;
@@ -160,6 +176,7 @@ method strCharLastIndexOf  // int strLastIndexOf(string, char ch, int fromIndex)
 
 method strIndexOf  // int strIndexOf(string, string searchStr, int fromIndex)
 {
+  params = { "string", "string", "int" };
   type = "java.lang.String";
   realMethod = "indexOf";
   static = false;
@@ -169,6 +186,7 @@ method strIndexOf  // int strIndexOf(string, string searchStr, int fromIndex)
 
 method strLastIndexOf  // int strLastIndexOf(string, string searchStr, int fromIndex)
 {
+  params = { "string", "string", "int" };
   type = "java.lang.String";
   realMethod = "lastIndexOf";
   static = false;
@@ -178,6 +196,7 @@ method strLastIndexOf  // int strLastIndexOf(string, string searchStr, int fromI
 
 method strCharAt  // int strCharAt(string, int index)
 {
+  params = { "string", "int" };
   type = "java.lang.String";
   realMethod = "charAt";
   static = false;
@@ -187,6 +206,7 @@ method strCharAt  // int strCharAt(string, int index)
 
 method strToLowerCase  // string strToLowerCase(string)
 {
+  params = { "string" };
   type = "java.lang.String";
   realMethod = "toLowerCase";
   static = false;
@@ -196,6 +216,7 @@ method strToLowerCase  // string strToLowerCase(string)
 
 method strToUpperCase  // string strToUpperCase(string)
 {
+  params = { "string" };
   type = "java.lang.String";
   realMethod = "toUpperCase";
   static = false;
@@ -205,6 +226,7 @@ method strToUpperCase  // string strToUpperCase(string)
 
 method strTrim  // string strTrim(string)
 {
+  params = { "string" };
   type = "java.lang.String";
   realMethod = "trim";
   static = false;
@@ -214,6 +236,7 @@ method strTrim  // string strTrim(string)
 
 method strReplaceChar  // string strReplaceChar(string, char oldChar, char newChar)
 {
+  params = { "string", "char", "char" };
   type = "java.lang.String";
   realMethod = "replace";
   static = false;
@@ -223,6 +246,7 @@ method strReplaceChar  // string strReplaceChar(string, char oldChar, char newCh
 
 method strReplaceAll  // string strReplaceAll(string, string regex, string newStr)
 {
+  params = { "string", "string", "string" };
   type = "java.lang.String";
   realMethod = "replaceAll";
   static = false;
@@ -232,6 +256,7 @@ method strReplaceAll  // string strReplaceAll(string, string regex, string newSt
 
 method strReplaceFirst  // string strReplaceFirst(string, string regex, string newStr)
 {
+  params = { "string", "string", "string" };
   type = "java.lang.String";
   realMethod = "replaceFirst";
   static = false;
@@ -241,6 +266,7 @@ method strReplaceFirst  // string strReplaceFirst(string, string regex, string n
 
 method strStartsWith  // boolean strStartsWith(string, string prefix)
 {
+  params = { "string", "string" };
   type = "java.lang.String";
   realMethod = "startsWith";
   static = false;
@@ -250,6 +276,7 @@ method strStartsWith  // boolean strStartsWith(string, string prefix)
 
 method strEndsWith  // boolean strEndsWith(string, string prefix)
 {
+  params = { "string", "string" };
   type = "java.lang.String";
   realMethod = "endsWith";
   static = false;

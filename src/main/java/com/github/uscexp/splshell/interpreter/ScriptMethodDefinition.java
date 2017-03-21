@@ -3,9 +3,16 @@
  */
 package com.github.uscexp.splshell.interpreter;
 
+import java.util.List;
+
+import com.github.uscexp.grappa.extension.exception.AstInterpreterException;
+import com.github.uscexp.grappa.extension.interpreter.AstInterpreter;
+import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
 import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.splshell.parser.SplParser;
 
 /**
  * @author haui
@@ -14,16 +21,16 @@ import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
 public class ScriptMethodDefinition implements MethodDeclaration {
 
 	private String name;
-	private Parameter[] parameter;
+	private Parameter[] parameters;
 	private String returnType;
-	private AstTreeNode<Object> methodImplementaion;
+	private AstTreeNode<String> methodImplementaion;
 	
 	public ScriptMethodDefinition(String name, String returnType,
-			Parameter[] parameter, AstTreeNode<Object> methodImplementaion) {
+			Parameter[] parameters, AstTreeNode<String> methodImplementaion) {
 		super();
 		this.name = name;
 		this.returnType = returnType;
-		this.parameter = parameter;
+		this.parameters = parameters;
 		this.methodImplementaion = methodImplementaion;
 	}
 
@@ -32,23 +39,43 @@ public class ScriptMethodDefinition implements MethodDeclaration {
 	}
 
 	public Class<?>[] getParameterTypes() {
-		Class<?>[] parameterTypes = new Class[parameter.length];
-		for (int i = 0; i < parameter.length; i++) {
-			parameterTypes[i] = parameter[i].getType();
+		Class<?>[] parameterTypes = new Class[parameters.length];
+		for (int i = 0; i < parameters.length; i++) {
+			parameterTypes[i] = parameters[i].getType();
 		}
 		return parameterTypes;
 	}
 
 	public Parameter[] getParameter() {
-		return parameter;
+		return parameters;
 	}
 
 	public String getReturnType() {
 		return returnType;
 	}
 
-	public AstTreeNode<Object> getMethodImplementaion() {
+	public AstTreeNode<String> getMethodImplementaion() {
 		return methodImplementaion;
+	}
+
+	public Object invoke(long id, ProcessStore<Object> processStore, List<Object> args) throws ReflectiveOperationException, AstInterpreterException {
+		Object result = null;
+		IStack<Object> stack = processStore.getTierStack();
+		
+		AstTreeNode<String> methodImplementaion = getMethodImplementaion();
+		
+		for (int j = 0; j < args.size(); j++) {
+			processStore.setNewVariable(getParameter()[j], args.get(j));
+		}
+		
+		AstInterpreter<String> astInterpreter = new AstInterpreter<>();
+		
+		astInterpreter.interpretForewardOrder(SplParser.class, methodImplementaion, id);
+		stack = processStore.getTierStack();
+		
+		if(!stack.isEmpty())
+			result = stack.pop();
+		return result;
 	}
 
 	@Override

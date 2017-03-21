@@ -4,7 +4,9 @@
 package com.github.uscexp.splshell.parser;
 
 import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
+import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.splshell.exception.SplShellException;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: forStatement.
@@ -16,8 +18,37 @@ public class AstForStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	}
 
 	@Override
-	protected void interpretAfterChilds(Long id)
-		throws Exception {
+	protected void interpretBeforeChilds(Long id) throws Exception {
+		super.interpretBeforeChilds(id);
+		if (getChildren().size() != 4)
+			throw new SplShellException(
+					String.format("Wrong for loop definition! It needs 4 children: an AstForInitTreeNode, an AstConditionalOrExpressionTreeNode, an AstForUpdateTreeNode and a type of statement, Given are these: %s", this.toString()));
+		AstTreeNode<V> initTreeNode = getChildren().get(0);
+		AstTreeNode<V> conditionTreeNode = getChildren().get(1);
+		AstTreeNode<V> updateTreeNode = getChildren().get(2);
+		AstTreeNode<V> statementTreeNode = getChildren().get(3);
+		
+		initTreeNode.interpretIt(id, true);
+		
+		while (evaluateCondition(id, updateTreeNode)) {
+			
+		}
+	}
+
+	private boolean evaluateCondition(Long id, AstTreeNode<V> updateTreeNode) throws Exception {
+		updateTreeNode.interpretIt(id, true);
+		
+		Object conditionValue = processStore.getTierStack().pop();
+		
+		if(conditionValue instanceof Primitive) {
+			conditionValue = ((Primitive)conditionValue).getValue();
+		}
+		
+		return ((Boolean)conditionValue).booleanValue();
+	}
+
+	@Override
+	protected void interpretAfterChilds(Long id) throws Exception {
 		super.interpretAfterChilds(id);
 		boolean exit = false;
 		int i, k = 0;

@@ -3,7 +3,7 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import java.util.Stack;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 
 /**
@@ -24,7 +24,7 @@ public class AstTypeTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-		Stack<Object> stack = processStore.getTierStack();
+		IStack<Object> stack = processStore.getTierStack();
 		String returnValue = value.trim();
 		stack.push(returnValue);
     }

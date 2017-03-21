@@ -47,7 +47,7 @@ public class AstBaseCommandTreeNode<V> extends AstCommandTreeNode<V> {
 		if (arrayDimension > 0) {
 			int[] dimensions = new int[arrayDimension];
 			for (int i = 0; i < dimensions.length; i++) {
-				dimensions[i] = 1;
+				dimensions[i] = 0;
 			}
 			variableObject = Array.newInstance(Primitive.class, dimensions);
 			int[] indices = new int[arrayDimension];
@@ -76,10 +76,14 @@ public class AstBaseCommandTreeNode<V> extends AstCommandTreeNode<V> {
 	}
 
 	protected void setValue(Object array, Object value, int... indecies) {
-		if (indecies.length == 1)
-			((Object[]) array)[indecies[0]] = value;
-		else
-			setValue(Array.get(array, indecies[0]), value, tail(indecies));
+		if (indecies.length == 1) {
+			if(Array.getLength(array) > indecies[0])
+				Array.set(array, indecies[0], value);
+		} else {
+			if(Array.getLength(array) > indecies[0]) {
+				setValue(Array.get(array, indecies[0]), value, tail(indecies));
+			}
+		}
 	}
 
 	private int[] tail(int[] arr) {

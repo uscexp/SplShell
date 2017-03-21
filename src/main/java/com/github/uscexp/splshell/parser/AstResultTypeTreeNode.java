@@ -3,7 +3,7 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import java.util.Stack;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 
 /**
@@ -27,7 +27,7 @@ public class AstResultTypeTreeNode<V >
 		String returnValue = value.trim();
 		
 		if(returnValue.equals("void")) {
-			Stack<Object> stack = processStore.getTierStack();
+			IStack<Object> stack = processStore.getTierStack();
 			stack.push(returnValue);
 		}
     }

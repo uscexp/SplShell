@@ -5,12 +5,12 @@ package com.github.uscexp.splshell.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
 import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.splshell.interpreter.MethodDefinition;
 import com.github.uscexp.splshell.interpreter.MethodIdentification;
 import com.github.uscexp.splshell.interpreter.ScriptMethodDefinition;
 
@@ -35,12 +35,11 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 	protected void interpretAfterChilds(Long id)
 		throws Exception {
 		super.interpretAfterChilds(id);
-		int i, k = 0;
 
 		processStore.moveWorkingMapToArchive();
 		processStore.createNewBlockVariableMap();
 		
-		Stack<Object> stack = processStore.getTierStack();
+		IStack<Object> stack = processStore.getTierStack();
 		List<Object> args = new ArrayList<>();
 		Object arg = null;
 		String methodName = null;
@@ -62,19 +61,26 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 		
 
 		MethodDeclaration methodDeclaration = processStore.getMethod(methodSignature);
-		if (methodDeclaration != null) {
-			if(methodDeclaration instanceof ScriptMethodDefinition) {
-				AstTreeNode<Object> methodImplementaion = ((ScriptMethodDefinition)methodDeclaration).getMethodImplementaion();
-				
-				for (int j = 0; j < args.size(); j++) {
-					processStore.setNewVariable(((ScriptMethodDefinition) methodDeclaration).getParameter()[j], args.get(j));
+		if(methodDeclaration == null) {
+			
+			MethodIdentification methodIdentification = ((MethodIdentification)methodSignature);
+			Class<?>[] parameterTypes = methodIdentification.getParameterTypes();
+			for (int i = 0; i < parameterTypes.length; ++i) {
+				Class<?> parameterType = paramenterTypes[i];
+				if(parameterType.isArray()) {
+					parameterType = new Object[0].getClass();
+					paramenterTypes[i] = parameterType;
 				}
-				// TODO: interpret methodImplementation and get result.
 			}
+			methodDeclaration = processStore.getMethod(methodSignature);
 		}
 		Object result = null;
-		if(!stack.isEmpty()) {
-			result = stack.pop();
+		if (methodDeclaration != null) {
+			if(methodDeclaration instanceof ScriptMethodDefinition) {
+				result = ((ScriptMethodDefinition)methodDeclaration).invoke(id, processStore, args);
+			} else if (methodDeclaration instanceof MethodDefinition) {
+				result = ((MethodDefinition)methodDeclaration).invoke(id, processStore, args);
+			}
 		}
 		processStore.tierOneDown(true);
 		if(result != null) {
@@ -87,7 +93,12 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 	private Class<?> getClass(Object arg) {
 		Class<?> result = null;
 		if(arg instanceof Primitive) {
-			result = Primitive.getClassFromTypeIdx(((Primitive)arg).getTypeId());
+			Object primitiveValue = ((Primitive)arg).getValue();
+			if(primitiveValue.getClass().isArray()) {
+				result = primitiveValue.getClass();
+			} else {
+				result = Primitive.getClassFromTypeIdx(((Primitive)arg).getTypeId());
+			}
 		} else {
 			result = arg.getClass();
 		}

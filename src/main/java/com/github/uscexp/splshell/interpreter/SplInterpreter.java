@@ -15,10 +15,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.github.fge.grappa.Grappa;
 import com.github.uscexp.blockformatpropertyfile.PropertyFile;
@@ -123,9 +121,12 @@ public class SplInterpreter {
         if(id != null)
         	internalId = id;
         try {
-            Map<String, MethodDefinition> methodDefinitionMap = loadMappedMethods();
             ProcessStore<Object> processStore = ProcessStore.getInstance(internalId);
-            processStore.setGlobalVariable(GLOBAL_MAPPED_METHOD_DEFINITION_MAP, methodDefinitionMap);
+//            @SuppressWarnings("unchecked")
+//			Map<String, MethodDefinition> methodDefinitionMap = (Map<String, MethodDefinition>) processStore.getVariable(GLOBAL_MAPPED_METHOD_DEFINITION_MAP);
+            if(processStore.getMethods().isEmpty()) {
+	            loadMappedMethods(processStore);
+            }
             if (args != null) {
                 processStore.setGlobalVariable(ARGUMENTS, args);
             }
@@ -138,9 +139,8 @@ public class SplInterpreter {
         }
     }
 
-    protected Map<String, MethodDefinition> loadMappedMethods()
+    protected void loadMappedMethods(ProcessStore<Object> processStore)
         throws PropertyFileException, ReflectiveOperationException, IOException, URISyntaxException {
-        Map<String, MethodDefinition> methodDefinitionMap = new HashMap<>();
         List<Path> paths = getMethodDefinitionFiles();
 
         for (int j = 0; j < paths.size(); ++j) {
@@ -150,14 +150,12 @@ public class SplInterpreter {
 
             propertyFile.load();
 
-            methodDefinitionMap.putAll(createMethodDefinitionMap(propertyFile));
+            createMethodDefinitionMap(propertyFile, processStore);
         }
-        return methodDefinitionMap;
     }
 
-    private Map<String, MethodDefinition> createMethodDefinitionMap(PropertyFile propertyFile)
+    private void createMethodDefinitionMap(PropertyFile propertyFile, ProcessStore<Object> processStore)
         throws ReflectiveOperationException {
-        Map<String, MethodDefinition> methodDefinitionMap = new HashMap<>();
         Collection<?> values = propertyFile.getValueMap().values();
 
         if (values.size() > 0) {
@@ -165,18 +163,18 @@ public class SplInterpreter {
                 PropertyStruct propertyStruct = (PropertyStruct) it.next();
 
                 String method = propertyStruct.getName();
+                Object[] paramDefs = (Object[]) propertyStruct.arrayValue("params");
                 String typeName = propertyStruct.stringValue("type");
                 String methodName = propertyStruct.stringValue("realMethod");
                 boolean statik = propertyStruct.booleanValue("static");
-                Object[] paramDefs = (Object[]) propertyStruct.arrayValue("realParams");
+                Object[] realParamDefs = (Object[]) propertyStruct.arrayValue("realParams");
                 String returnType = propertyStruct.stringValue("returnType");
 
-                MethodDefinition methodDefinition = new MethodDefinition(typeName, methodName, statik, paramDefs, returnType);
+                MethodDefinition methodDefinition = new MethodDefinition(method, paramDefs, typeName, methodName, statik, realParamDefs, returnType);
 
-                methodDefinitionMap.put(method, methodDefinition);
+                processStore.addMethod(methodDefinition.getMethodSignature(), methodDefinition);
             }
         }
-        return methodDefinitionMap;
     }
 
     private List<Path> getMethodDefinitionFiles()

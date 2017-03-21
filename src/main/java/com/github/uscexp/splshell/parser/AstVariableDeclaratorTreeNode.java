@@ -26,7 +26,6 @@ public class AstVariableDeclaratorTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        System.out.println("VariableDeclarator");
     }
 
 }

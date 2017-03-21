@@ -4,9 +4,9 @@
 package com.github.uscexp.splshell.parser;
 
 import java.util.List;
-import java.util.Stack;
 
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: varDeclaration.
@@ -26,7 +26,7 @@ public class AstVarDeclarationTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	protected void interpretAfterChilds(Long id)
 		throws Exception {
 		super.interpretAfterChilds(id);
-		Stack<Object> stack = processStore.getTierStack();
+		IStack<Object> stack = processStore.getTierStack();
 		Object variableValue = null;
 		if(hasChildAssignmentLiteral()) {
 			variableValue = stack.pop();

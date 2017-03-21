@@ -3,6 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.util.IStack;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: writeStatement.
  * 
@@ -21,7 +23,10 @@ public class AstWriteStatementTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        System.out.println("WriteStatement");
+		IStack<Object> stack = processStore.getTierStack();
+		Object printValue = stack.pop();
+		
+		System.out.print(printValue);
     }
 
 }

@@ -3,6 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: unaryExpression.
  * 
@@ -28,6 +30,10 @@ public class AstPrimaryExpressionTreeNode<V >
         throws Exception
     {
         super.interpretBeforeChilds(id);
+        if(getChildren().size() > 0 && getChildren().get(0) instanceof AstAssignmentLiteralTreeNode) {
+        	String variableId = value.trim();
+        	processStore.getTierStack().push(variableId);
+        }
         if(!isFirstChildAnExpression()) {
         	
         }

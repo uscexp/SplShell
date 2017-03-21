@@ -22,8 +22,12 @@ public class AstIdTreeNode<V >
     {
 		super.interpretAfterChilds(id);
 		String identifier = value.trim();
-		Object variable = processStore.getVariable(identifier);
-        processStore.getTierStack().push(variable);
+		if(getParent() != null && getParent().getParent() != null && getParent().getParent() instanceof AstAssignmentTreeNode) {
+			processStore.getTierStack().push(identifier);
+		} else {
+			Object variable = processStore.getVariable(identifier);
+	        processStore.getTierStack().push(variable);
+		}
     }
 
 }
