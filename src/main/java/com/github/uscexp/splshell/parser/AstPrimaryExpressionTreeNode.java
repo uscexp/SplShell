@@ -3,8 +3,6 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 /**
  * Command implementation for the <code>SplParser</code> rule: unaryExpression.
  * 

@@ -1,6 +1,8 @@
 
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: floatingPointLiteral.
  * 
@@ -26,7 +28,7 @@ public class AstFloatingPointLiteralTreeNode<V >
         throws Exception
     {
         super.interpretBeforeChilds(id);
-        Double doubleNumber = new Double(value);
+        Primitive doubleNumber = getPrimitive(value);
         processStore.getTierStack().push(doubleNumber);
     }
 

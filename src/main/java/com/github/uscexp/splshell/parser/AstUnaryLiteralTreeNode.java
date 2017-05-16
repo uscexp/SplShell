@@ -14,9 +14,8 @@ public class AstUnaryLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
-		System.out.println("UnaryLiteral");
 	}
 
 }

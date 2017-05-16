@@ -16,6 +16,6 @@ public class AstEqualityLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	protected void interpretAfterChilds(Long id)
 		throws Exception {
 		super.interpretAfterChilds(id);
-    	System.out.println("EqualityLiteral");
+        processStore.getTierStack().push(value.trim());
 	}
 }

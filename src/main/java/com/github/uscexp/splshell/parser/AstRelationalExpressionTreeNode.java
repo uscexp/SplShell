@@ -3,14 +3,15 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: relationalExpression.
  * 
  */
 public class AstRelationalExpressionTreeNode<V >
-    extends AstBaseCommandTreeNode<V>
+    extends AstCompareExpressionTreeNode<V>
 {
-
 
     public AstRelationalExpressionTreeNode(String rule, String value) {
 		super(rule, value);
@@ -21,9 +22,21 @@ public class AstRelationalExpressionTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        if(!isFirstChildAnExpression()) {
-        	
-        }
     }
 
+	protected boolean isSecondChildAnRelationalLiteral() {
+		boolean result = false;
+		if(getChildren().size() > 1) {
+			AstTreeNode<V> treeNode = getChildren().get(1);
+			if(treeNode instanceof AstRelationalLiteralTreeNode) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	boolean existChildConditionalLiteral() {
+		return isSecondChildAnRelationalLiteral();
+	}
 }

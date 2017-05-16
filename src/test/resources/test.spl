@@ -36,7 +36,7 @@ int main( string args[])
 	
 	for( int i = 0; i < arrayLength(ct); ++i)
 	{
-	  write ct[i];
+	  write ct[i] + "\n";
 	}
 	
 	--count;
@@ -47,7 +47,7 @@ int main( string args[])
 	n = 0;
 	n1 = 0;
 	n2 = 0;
-	iArr[0][0][2] = 4;
+	iArr[0][0][1] = 4;
 	iArr[0][0][0] = 5;
 	
 	count = arrayLength( iArr);

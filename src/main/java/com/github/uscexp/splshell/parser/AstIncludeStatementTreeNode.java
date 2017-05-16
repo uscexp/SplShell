@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
 import com.github.uscexp.splshell.interpreter.SplInterpreter;
 
 /**
@@ -22,9 +23,10 @@ public class AstIncludeStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
-		path = (String) processStore.getTierStack().pop();
+		Primitive primitive = getPrimitive(processStore.getTierStack().pop());
+		path = (String) primitive.getValue();
 		// delete leading and ending <code>"</code>
 		if (path.startsWith("\""))
 			path = path.substring(1, path.length() - 1);

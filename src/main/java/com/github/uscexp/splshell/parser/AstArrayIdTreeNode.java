@@ -19,33 +19,17 @@ public class AstArrayIdTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
-		int idx = value.indexOf('[');
-		String name = value.substring(0, idx).trim();
-		Object variable = processStore.getVariable(name);
-		if(variable instanceof Primitive) {
-			variable = ((Primitive)variable).getValue();
+		String identifier = value.trim();
+		if (getParent() != null && getParent().getParent() != null && getParent().getParent() instanceof AstAssignmentTreeNode) {
+			processStore.getTierStack().push(identifier);
+		} else {
+			Object result = ArrayUtil.getArrayValueOnIndex(value, processStore);
+			// remove var name from stack
+			processStore.getTierStack().pop();
+			processStore.getTierStack().push(result);
 		}
-		int dim = idx > 0 ? 1 : 0;
-		while ((idx = value.indexOf("[", idx+1)) > 0) {
-			++dim;
-		}
-		int[] indices = new int[dim];
-		int i = dim - 1;
-
-		for (i = dim - 1; (i + dim) >= dim; --i) {
-			Object idxValue = processStore.getTierStack().pop();
-			if(idxValue instanceof Primitive) {
-				indices[i] = ((Primitive)idxValue).getIntegerValue();
-			} else {
-				indices[i] = (int)idxValue;
-			}
-		}
-		Object result = ArrayUtil.getArrayValue(variable, indices);
-		// remove var name from stack
-		processStore.getTierStack().pop();
-		processStore.getTierStack().push(result);
 	}
 
 	@SuppressWarnings("unchecked")

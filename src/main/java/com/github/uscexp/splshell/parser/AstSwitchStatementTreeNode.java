@@ -7,21 +7,17 @@ package com.github.uscexp.splshell.parser;
  * Command implementation for the <code>SplParser</code> rule: switchStatement.
  * 
  */
-public class AstSwitchStatementTreeNode<V >
-    extends AstBaseCommandTreeNode<V>
-{
+public class AstSwitchStatementTreeNode<V>
+		extends AstBaseCommandTreeNode<V> {
 
-
-    public AstSwitchStatementTreeNode(String rule, String value) {
+	public AstSwitchStatementTreeNode(String rule, String value) {
 		super(rule, value);
-    }
+	}
 
-    @Override
-    protected void interpretAfterChilds(Long id)
-        throws Exception
-    {
+	@Override
+	protected void interpretAfterChilds(Long id)
+			throws Exception {
 		super.interpretAfterChilds(id);
-        System.out.println("SwitchStatement");;
-    }
+	}
 
 }

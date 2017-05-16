@@ -3,6 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: stringLiteral.
  * 
@@ -23,7 +25,8 @@ public class AstStringLiteralTreeNode<V >
         super.interpretAfterChilds(id);
         String string = value.trim();
         string = string.substring(1, string.length()-1);
-        processStore.getTierStack().push(string);
+        Primitive primitive = Primitive.createValue(string);
+        processStore.getTierStack().push(primitive);
     }
 
     @Override

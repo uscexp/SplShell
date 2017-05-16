@@ -24,11 +24,13 @@ public class AstPostIncrementExpressionTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        String name = "";
-        Primitive primitive = processStore.getPrimitiveVariable( name);
-        processStore.getTierStack().push( primitive.getValue());
-        primitive.increment();
-        processStore.setVariable( name, primitive);
+		if(value != null) {
+			String name = value.substring(0, value.length() - 2);
+	        Primitive primitive = processStore.getPrimitiveVariable( name);
+	        processStore.getTierStack().push( primitive.getValue());
+	        primitive.increment();
+	        processStore.setVariable( name, primitive);
+		}
     }
 
 }

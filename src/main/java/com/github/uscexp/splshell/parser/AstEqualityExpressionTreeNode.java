@@ -3,17 +3,15 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-
+import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: equalityExpression.
  * 
  */
 public class AstEqualityExpressionTreeNode<V >
-    extends AstBaseCommandTreeNode<V>
+    extends AstCompareExpressionTreeNode<V>
 {
-
 
     public AstEqualityExpressionTreeNode(String rule, String value) {
 		super(rule, value);
@@ -24,12 +22,22 @@ public class AstEqualityExpressionTreeNode<V >
         throws Exception
     {
 		super.interpretAfterChilds(id);
-		if(!isFirstChildAnExpression()) {
-	        Primitive v2 = new Primitive( processStore.getTierStack().pop());
-	        Primitive v1 = new Primitive( processStore.getTierStack().pop());
-	        Primitive result = new Primitive( boolean.class, v1.equals( v2));
-	        processStore.getTierStack().push( result.getValue());
-		}
     }
+
+	protected boolean isSecondChildAnEqualityLiteral() {
+		boolean result = false;
+		if(getChildren().size() > 1) {
+			AstTreeNode<V> treeNode = getChildren().get(1);
+			if(treeNode instanceof AstEqualityLiteralTreeNode) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	boolean existChildConditionalLiteral() {
+		return isSecondChildAnEqualityLiteral();
+	}
 
 }

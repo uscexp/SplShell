@@ -5,7 +5,7 @@ package com.github.uscexp.splshell.parser;
 
 import java.util.ArrayList;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 
 /**
@@ -21,36 +21,29 @@ public class AstArrayInitializerTreeNode<V >
 		super(rule, value);
     }
 
+	@Override
+	protected void interpretBeforeChilds(Long id) throws Exception {
+		super.interpretBeforeChilds(id);
+		processStore.tierOneUp(true);
+	}
+
     @Override
     protected void interpretAfterChilds(Long id)
         throws Exception
     {
 		super.interpretAfterChilds(id);
-        int n = 0;
         ArrayList<Object> list = null;
+        IStack<Object> stack = processStore.getTierStack();
         
-        if( n > 0)
-        {
-          for( int i = 0; i < n; ++i)
-          {
-            if( processStore.getTierStack().peek() instanceof ArrayList)
-            {
-              list = new ArrayList<>();
-              list.add( processStore.getTierStack().pop());
-            }
-            else if( list instanceof ArrayList)
-            {
-              list.add( new Primitive( processStore.getTierStack().pop()));
-            }
-            else
-            {
-              list = new ArrayList<>();
-              list.add( new Primitive( processStore.getTierStack().pop()));
-            }
-          }
-        }
-        
-        processStore.getTierStack().push( list);
+        while (!stack.isEmpty()) {
+			if(list == null)
+				list = new ArrayList<>();
+			list.add(0, processStore.getTierStack().pop());
+		}
+                
+        processStore.tierOneDown(true);
+        if(list != null)
+        	processStore.getTierStack().push( list);
     }
 
 }

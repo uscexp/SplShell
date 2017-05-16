@@ -16,12 +16,17 @@ public class AstIDENTIFIERTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
 		IStack<Object> stack = processStore.getTierStack();
-		if(getSibling(1) == null || !(getSibling(1) instanceof AstMethodCallStatementTreeNode)) {
+		if (getSibling(1) == null || !(getSibling(1) instanceof AstMethodCallStatementTreeNode)) {
 			String literal = value.trim();
-			stack.push(literal);
+			Object stackValue = "";
+			if (!stack.isEmpty()) {
+				stackValue = stack.peek();
+			}
+			if (!stackValue.equals(literal))
+				stack.push(literal);
 		}
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+
 /**
  * Command implementation for the <code>SplParser</code> rule: charLiteral.
  * 
@@ -28,7 +30,7 @@ public class AstCharLiteralTreeNode<V >
         throws Exception
     {
         super.interpretBeforeChilds(id);
-        Character character = value.trim().charAt(1);
+        Primitive character = Primitive.createValue(value.trim().charAt(1));
         processStore.getTierStack().push(character);
     }
 

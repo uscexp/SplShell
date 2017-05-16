@@ -7,21 +7,17 @@ package com.github.uscexp.splshell.parser;
  * Command implementation for the <code>SplParser</code> rule: jshStatement.
  * 
  */
-public class AstJshStatementTreeNode<V >
-    extends AstBaseCommandTreeNode<V>
-{
+public class AstJshStatementTreeNode<V>
+		extends AstBaseCommandTreeNode<V> {
 
-
-    public AstJshStatementTreeNode(String rule, String value) {
+	public AstJshStatementTreeNode(String rule, String value) {
 		super(rule, value);
-    }
+	}
 
-    @Override
-    protected void interpretAfterChilds(Long id)
-        throws Exception
-    {
+	@Override
+	protected void interpretAfterChilds(Long id)
+			throws Exception {
 		super.interpretAfterChilds(id);
-        System.out.println("JshStatement");;
-    }
+	}
 
 }

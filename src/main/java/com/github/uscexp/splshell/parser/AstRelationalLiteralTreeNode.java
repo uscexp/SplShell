@@ -16,6 +16,6 @@ public class AstRelationalLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	protected void interpretAfterChilds(Long id)
 		throws Exception {
 		super.interpretAfterChilds(id);
-		System.out.println("RelationalLiteral");
+        processStore.getTierStack().push(value.trim());
 	}
 }
