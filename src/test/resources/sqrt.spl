@@ -1,0 +1,14 @@
+int main( string args[])
+{
+	int val = 9;
+	int sqrt;
+	
+	//read val;
+	
+	sqrt = 1;
+	
+	while (sqrt * sqrt <= val && ((sqrt + 1) * (sqrt + 1)) <= val)
+	  sqrt = sqrt + 1;
+	
+	write sqrt;
+}
