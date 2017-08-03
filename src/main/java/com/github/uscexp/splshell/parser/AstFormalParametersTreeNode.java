@@ -8,7 +8,7 @@ package com.github.uscexp.splshell.parser;
  * 
  */
 public class AstFormalParametersTreeNode<V>
-		extends AstBaseCommandTreeNode<V> implements AstMethodInterface {
+		extends AstBaseCommandTreeNode<V> {
 
 	public AstFormalParametersTreeNode(String rule, String value) {
 		super(rule, value);
@@ -19,9 +19,4 @@ public class AstFormalParametersTreeNode<V>
 			throws Exception {
 		super.interpretAfterChilds(id);
 	}
-
-	@Override
-	public void invoke(Long id) {
-	}
-
 }

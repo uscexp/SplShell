@@ -18,6 +18,7 @@ public class AstJshStatementTreeNode<V>
 	protected void interpretAfterChilds(Long id)
 			throws Exception {
 		super.interpretAfterChilds(id);
+		System.err.println("Jsh statement not implemented yet!");
 	}
 
 }

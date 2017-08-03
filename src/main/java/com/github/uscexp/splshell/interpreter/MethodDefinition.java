@@ -18,7 +18,7 @@ import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
 import com.github.uscexp.splshell.util.PrimitiveConverter;
 
 /**
- * @author  haui
+ * @author haui
  */
 public class MethodDefinition implements MethodDeclaration {
 
@@ -32,14 +32,14 @@ public class MethodDefinition implements MethodDeclaration {
 	private final String returnType;
 
 	public MethodDefinition(String name, Object[] parameters, String type, String realMethod, boolean statik, Object[] realParameters, String returnType)
-		throws ReflectiveOperationException {
+			throws ReflectiveOperationException {
 		super();
 
 		Class<?> clazz = Class.forName(type);
 
-		Class<?>[] parametgerTypes = getParameterTypes(parameters);
+		Class<?>[] parametgerTypes = getParameterTypes(parameters, false);
 
-		Class<?>[] realParametgerTypes = getParameterTypes(realParameters);
+		Class<?>[] realParametgerTypes = getParameterTypes(realParameters, true);
 
 		if (realMethod.equals("constructor")) {
 			this.constructor = clazz.getConstructor(realParametgerTypes);
@@ -57,59 +57,71 @@ public class MethodDefinition implements MethodDeclaration {
 		this.returnType = returnType;
 	}
 
-	private Class<?>[] getParameterTypes(Object[] parameters) {
+	private Class<?>[] getParameterTypes(Object[] parameters, boolean realParameters) {
 		Class<?>[] parameterTypes = null;
-		if(parameters != null) {
+		if (parameters != null) {
 			parameterTypes = new Class<?>[parameters.length];
 			for (int i = 0; i < parameters.length; i++) {
-				if(parameters[i].equals("object[]")) {
+				if (parameters[i].equals("object[]")) {
 					parameterTypes[i] = Object[].class;
 				} else {
-					parameterTypes[i] = Primitive.getClassFromType((String) parameters[i]);
+					if (!realParameters) {
+						parameterTypes[i] = Primitive.getPrimitiveTypeFromType((String) parameters[i]);
+					} else {
+						parameterTypes[i] = Primitive.getClassFromType((String) parameters[i]);
+					}
 				}
 			}
 		}
 		return parameterTypes;
 	}
-	
+
 	public Object invoke(long id, ProcessStore<Object> processStore, List<Object> args) throws ReflectiveOperationException {
 		Object[] realArgs = null;
 		int realParametersSize = 0;
-		
-		if(realParameters != null) {
+
+		if (realParameters != null) {
 			realParametersSize = realParameters.length;
 			realArgs = new Object[realParametersSize];
 		}
 		Object executionObject = null;
-		
-		for (int i = 0, j = realParametersSize-1; i < args.size(); i++, j--) {
+
+		for (int i = 0, j = realParametersSize - 1; i < args.size(); i++, j--) {
 			Object object = args.get(i);
-			if(object instanceof Primitive)
-				object = ((Primitive)object).getValue();
-			if(object.getClass().isArray()) {
+			if (object instanceof Primitive) {
+				object = ((Primitive) object).getValue();
+			}
+			if (object.getClass().isArray()) {
 				object = PrimitiveConverter.primitiveToWraper(object);
 			}
-			if(j >= 0) {
-				realArgs[j] = object;
-			} else {
+			if (!statik && i == 0) {
 				executionObject = object;
+			} else {
+				int realI = i;
+				if (!statik) {
+					realI = i - 1;
+				}
+				realArgs[realI] = object;
 			}
 		}
-		
+
 		return invoke(executionObject, realArgs);
 	}
 
 	/**
 	 * invoke method.
 	 * 
-	 * @param  obj  the object the underlying method is invoked from
-	 * @param  args  the arguments used for the method call
-	 * @return  the result of dispatching the method represented by this object on {@code obj} with parameters
-	 * @throws ReflectiveOperationException 
+	 * @param obj
+	 *            the object the underlying method is invoked from
+	 * @param args
+	 *            the arguments used for the method call
+	 * @return the result of dispatching the method represented by this object
+	 *         on {@code obj} with parameters
+	 * @throws ReflectiveOperationException
 	 */
 	public Object invoke(Object obj, Object[] args) throws ReflectiveOperationException {
 		Object result = null;
-		if(method != null) {
+		if (method != null) {
 			result = method.invoke(obj, args);
 		} else {
 			result = constructor.newInstance(args);
@@ -151,10 +163,12 @@ public class MethodDefinition implements MethodDeclaration {
 			method = clazz.getDeclaredMethod(methodName, paramTypes);
 		} catch (NoSuchMethodException e) {
 			clazz = clazz.getSuperclass();
-			if(clazz != null)
+			if (clazz != null) {
 				method = getDeclaredMethod(clazz, methodName, paramTypes);
-			if(method == null)
+			}
+			if (method == null) {
 				throw e;
+			}
 		}
 		return method;
 	}
@@ -172,10 +186,12 @@ public class MethodDefinition implements MethodDeclaration {
 				+ ((constructor == null) ? 0 : constructor.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		if(parameters != null)
+		if (parameters != null) {
 			result = prime * result + Arrays.hashCode(parameters);
-		if(realParameters != null)
+		}
+		if (realParameters != null) {
 			result = prime * result + Arrays.hashCode(realParameters);
+		}
 		result = prime * result
 				+ ((returnType == null) ? 0 : returnType.hashCode());
 		result = prime * result + (statik ? 1231 : 1237);
@@ -185,52 +201,72 @@ public class MethodDefinition implements MethodDeclaration {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		MethodDefinition other = (MethodDefinition) obj;
 		if (constructor == null) {
-			if (other.constructor != null)
+			if (other.constructor != null) {
 				return false;
-		} else if (!constructor.equals(other.constructor))
+			}
+		} else if (!constructor.equals(other.constructor)) {
 			return false;
+		}
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
-		} else if (!name.equals(other.name))
+			}
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		if (method == null) {
-			if (other.method != null)
+			if (other.method != null) {
 				return false;
-		} else if (!method.equals(other.method))
+			}
+		} else if (!method.equals(other.method)) {
 			return false;
-		if(parameters == null && other.parameters != null)
+		}
+		if (parameters == null && other.parameters != null) {
 			return false;
-		if(parameters != null && other.parameters == null)
+		}
+		if (parameters != null && other.parameters == null) {
 			return false;
-		if (!Arrays.equals(parameters, other.parameters))
+		}
+		if (!Arrays.equals(parameters, other.parameters)) {
 			return false;
-		if(realParameters == null && other.realParameters != null)
+		}
+		if (realParameters == null && other.realParameters != null) {
 			return false;
-		if(realParameters != null && other.realParameters == null)
+		}
+		if (realParameters != null && other.realParameters == null) {
 			return false;
-		if (!Arrays.equals(realParameters, other.realParameters))
+		}
+		if (!Arrays.equals(realParameters, other.realParameters)) {
 			return false;
+		}
 		if (returnType == null) {
-			if (other.returnType != null)
+			if (other.returnType != null) {
 				return false;
-		} else if (!returnType.equals(other.returnType))
+			}
+		} else if (!returnType.equals(other.returnType)) {
 			return false;
-		if (statik != other.statik)
+		}
+		if (statik != other.statik) {
 			return false;
+		}
 		if (type == null) {
-			if (other.type != null)
+			if (other.type != null) {
 				return false;
-		} else if (!type.getName().equals(other.type.getName()))
+			}
+		} else if (!type.getName().equals(other.type.getName())) {
 			return false;
+		}
 		return true;
 	}
 

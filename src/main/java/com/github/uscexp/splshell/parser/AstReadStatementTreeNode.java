@@ -4,6 +4,7 @@
 package com.github.uscexp.splshell.parser;
 
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.grappa.extension.util.IStack;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: readStatement.
@@ -16,16 +17,20 @@ public class AstReadStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
+		IStack<Object> stack = processStore.getTierStack();
 		Primitive primitive;
 		byte[] b = new byte[64];
 		int i;
 
-		String name = "";
+		Object object = stack.pop();
+		primitive = getPrimitive(object);
+		String name = (String) primitive.getValue();
 
-		if ((primitive = processStore.getPrimitiveVariable(name)) == null)
+		if ((primitive = processStore.getPrimitiveVariable(name)) == null) {
 			System.err.println("Undefined variable : " + name);
+		}
 
 		System.out.print("Enter a value for \'" + name + "\' (" + primitive.getPrimitiveType().getName() + ") : ");
 		System.out.flush();

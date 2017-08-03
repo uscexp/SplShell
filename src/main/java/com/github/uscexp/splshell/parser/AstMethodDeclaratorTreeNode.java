@@ -6,7 +6,7 @@ package com.github.uscexp.splshell.parser;
 /**
  * Command implementation for the <code>SplParser</code> rule: methodDeclarator.
  */
-public class AstMethodDeclaratorTreeNode<V> extends AstBaseCommandTreeNode<V> implements AstMethodInterface {
+public class AstMethodDeclaratorTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
 	public AstMethodDeclaratorTreeNode(String rule, String value) {
 		super(rule, value);
@@ -14,12 +14,7 @@ public class AstMethodDeclaratorTreeNode<V> extends AstBaseCommandTreeNode<V> im
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
 	}
-
-	@Override
-	public void invoke(Long id) {
-	}
-
 }

@@ -3,52 +3,25 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import java.util.ArrayList;
-
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-
-
 /**
  * Command implementation for the <code>SplParser</code> rule: formalParameter.
  * 
  */
-public class AstFormalParameterTreeNode<V >
-    extends AstBaseCommandTreeNode<V> implements AstMethodInterface
-{
+public class AstFormalParameterTreeNode<V>
+		extends AstBaseCommandTreeNode<V> {
 
-
-    public AstFormalParameterTreeNode(String rule, String value) {
+	public AstFormalParameterTreeNode(String rule, String value) {
 		super(rule, value);
-    }
+	}
 
-    @Override
+	@Override
 	protected void interpretBeforeChilds(Long id) throws Exception {
 		super.interpretBeforeChilds(id);
 	}
 
 	@Override
-    protected void interpretAfterChilds(Long id)
-        throws Exception
-    {
+	protected void interpretAfterChilds(Long id)
+			throws Exception {
 		super.interpretAfterChilds(id);
-    }
-
-	@Override
-	public void invoke(Long id) {
-        String name = "";
-        Object value = processStore.getTierStack().pop();
-
-        if( value instanceof ArrayList)
-        {
-          ArrayList<Object> list = (ArrayList<Object>)processStore.getVariable(name);
-          processStore.setVariable( name, value);
-        }
-        else
-        {
-          Primitive primitive = processStore.getPrimitiveVariable( name);
-          primitive.setObjectValue( value);
-          processStore.setVariable( name, primitive);
-        }
 	}
-
 }

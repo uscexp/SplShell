@@ -1,14 +1,17 @@
-int n;
-int fact;
-
-read n;
-
-fact = 1;
-
-while (n > 1)
+int main( string args[])
 {
-   fact = fact * n;
-   n = n - 1;
+	int n = 4;
+	int fact;
+	
+	//read n;
+	
+	fact = 1;
+	
+	while (n > 1)
+	{
+	   fact = fact * n;
+	   n = n - 1;
+	}
+	
+	write fact;
 }
-
-write fact;

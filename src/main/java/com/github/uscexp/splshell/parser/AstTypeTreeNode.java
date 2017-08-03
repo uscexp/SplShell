@@ -5,32 +5,23 @@ package com.github.uscexp.splshell.parser;
 
 import com.github.uscexp.grappa.extension.util.IStack;
 
-
 /**
  * Command implementation for the <code>SplParser</code> rule: type.
  * 
  */
-public class AstTypeTreeNode<V >
-    extends AstBaseCommandTreeNode<V> implements AstMethodInterface
-{
+public class AstTypeTreeNode<V>
+		extends AstBaseCommandTreeNode<V> {
 
-
-    public AstTypeTreeNode(String rule, String value) {
+	public AstTypeTreeNode(String rule, String value) {
 		super(rule, value);
-    }
+	}
 
-    @Override
-    protected void interpretAfterChilds(Long id)
-        throws Exception
-    {
+	@Override
+	protected void interpretAfterChilds(Long id)
+			throws Exception {
 		super.interpretAfterChilds(id);
 		IStack<Object> stack = processStore.getTierStack();
 		String returnValue = value.trim();
 		stack.push(returnValue);
-    }
-
-	@Override
-	public void invoke(Long id) {
 	}
-
 }

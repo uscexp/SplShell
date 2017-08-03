@@ -1,13 +1,16 @@
-int num;
-boolean odd;
-
-num = 10;
-
-read num;
-
-if (num % 2 != 0)
-   odd = true;
-else
-   odd = false;
-
-write odd;
+int main( string args[])
+{
+	int num;
+	boolean odd;
+	
+	num = 9;
+	
+//	read num;
+	
+	if (num % 2 != 0)
+	   odd = true;
+	else
+	   odd = false;
+	
+	write odd;
+}

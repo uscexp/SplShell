@@ -3,9 +3,9 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Comperator;
+import com.github.uscexp.grappa.extension.interpreter.type.Comparator;
 import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
 
 /**
  * Command implementation for the <code>SplParser</code> base class for
@@ -13,23 +13,27 @@ import com.github.uscexp.grappa.extension.util.IStack;
  * 
  */
 public abstract class AstCompareExpressionTreeNode<V>
-		extends AstBaseCommandTreeNode<V> {
+		extends AstCalculationExpressionTreeNode<V> {
 
 	enum ConditionLiteral {
-		gt(Comperator.GREATER), lt(Comperator.LESSER), ge(Comperator.GREATER_EQUALS), le(Comperator.LESSER_EQUALS), eq(Comperator.EQUALS), ne(Comperator.NOT_EQUALS);
+		gt(Comparator.GREATER), lt(Comparator.LESSER), ge(Comparator.GREATER_EQUALS), le(Comparator.LESSER_EQUALS), eq(Comparator.EQUALS), ne(Comparator.NOT_EQUALS);
 
-		Comperator comperator;
+		Comparator comperator;
 
-		private ConditionLiteral(Comperator comperator) {
+		private ConditionLiteral(Comparator comperator) {
 			this.comperator = comperator;
 		}
 
-		public boolean compare(Primitive value1, Primitive value2) {
-			return value1.compare(comperator, value2);
+		public Primitive compare(Primitive value1, Primitive value2) {
+			Primitive result = null;
+			boolean compareResult = value1.compare(comperator, value2);
+
+			result = new Primitive(Boolean.class, compareResult);
+			return result;
 		}
 
 		public static ConditionLiteral valueByString(String conditionalLiteral) {
-			Comperator comperator = Comperator.valueByString(conditionalLiteral);
+			Comparator comperator = Comparator.valueByString(conditionalLiteral);
 			ConditionLiteral conditionLiteral = null;
 			for (ConditionLiteral literal : values()) {
 				if (literal.comperator == comperator) {
@@ -49,17 +53,25 @@ public abstract class AstCompareExpressionTreeNode<V>
 	protected void interpretAfterChilds(Long id)
 			throws Exception {
 		super.interpretAfterChilds(id);
-		IStack<Object> stack = processStore.getTierStack();
 		if (existChildConditionalLiteral()) {
-			Primitive secondLiteral = getPrimitive(stack.pop());
-			String condition = (String) stack.pop();
-			Primitive firstLiteral = getPrimitive(stack.pop());
-
-			boolean result = ConditionLiteral.valueByString(condition).compare(firstLiteral, secondLiteral);
-
-			stack.push(result);
+			process(id, getValueTreeNodeClass(), getOperatorTreeNodeClass());
 		}
 	}
 
+	@Override
+	protected Primitive calculate(String operator, Primitive v1, Primitive v2) {
+		Primitive result = null;
+
+		result = ConditionLiteral.valueByString(operator).compare(v1, v2);
+
+		return result;
+	}
+
 	abstract boolean existChildConditionalLiteral();
+
+	@SuppressWarnings("rawtypes")
+	abstract Class<? extends AstTreeNode> getValueTreeNodeClass();
+
+	@SuppressWarnings("rawtypes")
+	abstract Class<? extends AstTreeNode> getOperatorTreeNodeClass();
 }

@@ -3,6 +3,7 @@
  */
 package com.github.uscexp.splshell.parser;
 
+import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
 import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
 import com.github.uscexp.splshell.exception.SplShellException;
 
@@ -24,9 +25,12 @@ public class AstForStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	@Override
 	protected void interpretBeforeChilds(Long id) throws Exception {
 		super.interpretBeforeChilds(id);
-		if (getChildren().size() != 4)
+		if (getChildren().size() != 4) {
 			throw new SplShellException(
-					String.format("Wrong for loop definition! It needs 4 children: an AstForInitTreeNode, an AstConditionalOrExpressionTreeNode, an AstForUpdateTreeNode and a type of statement, Given are these: %s", this.toString()));
+					String.format(
+							"Wrong for loop definition! It needs 4 children: an AstForInitTreeNode, an AstConditionalOrExpressionTreeNode, an AstForUpdateTreeNode and a type of statement, Given are these: %s",
+							this.toString()));
+		}
 		initTreeNode = getChildren().get(0);
 		conditionTreeNode = getChildren().get(1);
 		updateTreeNode = getChildren().get(2);
@@ -39,10 +43,17 @@ public class AstForStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 		processStore.createNewBlockVariableMap();
 
 		initTreeNode.interpretIt(id, true);
-		
+
 		while (evaluateCondition(id, conditionTreeNode)) {
 			statementTreeNode.interpretIt(id, true);
-			
+			if (processStore.getExecState() == ProcessStore.BREAK_STATE) {
+				processStore.setExecState(ProcessStore.OK_STATE);
+				break;
+			}
+			if (processStore.getExecState() == ProcessStore.CONT_STATE) {
+				processStore.setExecState(ProcessStore.OK_STATE);
+			}
+
 			// update loop variable
 			updateTreeNode.interpretIt(id, true);
 		}

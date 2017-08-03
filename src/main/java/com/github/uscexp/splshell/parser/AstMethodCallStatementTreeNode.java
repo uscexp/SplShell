@@ -15,7 +15,8 @@ import com.github.uscexp.splshell.interpreter.MethodIdentification;
 import com.github.uscexp.splshell.interpreter.ScriptMethodDefinition;
 
 /**
- * Command implementation for the <code>SplParser</code> rule: methodCallStatement.
+ * Command implementation for the <code>SplParser</code> rule:
+ * methodCallStatement.
  */
 public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V> {
 
@@ -33,41 +34,43 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 
 	@Override
 	protected void interpretAfterChilds(Long id)
-		throws Exception {
+			throws Exception {
 		super.interpretAfterChilds(id);
 
 		processStore.moveWorkingMapToArchive();
 		processStore.createNewBlockVariableMap();
-		
+
 		IStack<Object> stack = processStore.getTierStack();
 		List<Object> args = new ArrayList<>();
 		Object arg = null;
 		String methodName = null;
-		
+
 		while (!stack.isEmpty()) {
 			arg = stack.pop();
-			if(stack.isEmpty()) {
+			if (stack.isEmpty()) {
 				methodName = (String) arg;
 			} else {
 				args.add(0, arg);
 			}
 		}
-		
-		Class<?>[] paramenterTypes = new Class[args.size()];
-		for (int j = 0; j < args.size(); j++) {
-			paramenterTypes[j] = getClass(args.get(j));
+
+		Class<?>[] paramenterTypes = null;
+		if (args.size() > 0) {
+			paramenterTypes = new Class[args.size()];
+			for (int j = 0; j < args.size(); j++) {
+				paramenterTypes[j] = getClass(args.get(j));
+			}
 		}
 		methodSignature = new MethodIdentification(methodName, paramenterTypes);
-		
 
 		MethodDeclaration methodDeclaration = processStore.getMethod(methodSignature);
-		if(methodDeclaration == null) {
-			
-			MethodIdentification methodIdentification = ((MethodIdentification)methodSignature);
+		if (methodDeclaration == null) {
+
+			MethodIdentification methodIdentification = ((MethodIdentification) methodSignature);
 			Class<?>[] parameterTypes = methodIdentification.getParameterTypes();
 			for (int i = 0; i < parameterTypes.length; ++i) {
 				Class<?> parameterType = paramenterTypes[i];
-				if(parameterType.isArray()) {
+				if (parameterType.isArray()) {
 					parameterType = new Object[0].getClass();
 					paramenterTypes[i] = parameterType;
 				}
@@ -76,14 +79,25 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 		}
 		Object result = null;
 		if (methodDeclaration != null) {
-			if(methodDeclaration instanceof ScriptMethodDefinition) {
-				result = ((ScriptMethodDefinition)methodDeclaration).invoke(id, processStore, args);
+			if (methodDeclaration instanceof ScriptMethodDefinition) {
+				result = ((ScriptMethodDefinition) methodDeclaration).invoke(id, processStore, args);
 			} else if (methodDeclaration instanceof MethodDefinition) {
-				result = ((MethodDefinition)methodDeclaration).invoke(id, processStore, args);
+				result = ((MethodDefinition) methodDeclaration).invoke(id, processStore, args);
+				Class<?> returnClass = null;
+				String returnType = ((MethodDefinition) methodDeclaration).getReturnType();
+				if ("char[]".equals(returnType)) {
+					returnClass = char[].class;
+				} else {
+					returnClass = Primitive.getPrimitiveTypeFromTypeIdx(Primitive.getType(((MethodDefinition) methodDeclaration).getReturnType()));
+				}
+				if (result != null && !returnClass.equals(result.getClass())) {
+					Primitive primitive = new Primitive(returnClass, result);
+					result = primitive.getValue();
+				}
 			}
 		}
 		processStore.tierOneDown(true);
-		if(result != null) {
+		if (result != null) {
 			processStore.getTierStack().push(result);
 		}
 
@@ -92,12 +106,12 @@ public class AstMethodCallStatementTreeNode<V> extends AstBaseCommandTreeNode<V>
 
 	private Class<?> getClass(Object arg) {
 		Class<?> result = null;
-		if(arg instanceof Primitive) {
-			Object primitiveValue = ((Primitive)arg).getValue();
-			if(primitiveValue.getClass().isArray()) {
+		if (arg instanceof Primitive) {
+			Object primitiveValue = ((Primitive) arg).getValue();
+			if (primitiveValue.getClass().isArray()) {
 				result = primitiveValue.getClass();
 			} else {
-				result = Primitive.getClassFromTypeIdx(((Primitive)arg).getTypeId());
+				result = Primitive.getClassFromTypeIdx(((Primitive) arg).getTypeId());
 			}
 		} else {
 			result = arg.getClass();
