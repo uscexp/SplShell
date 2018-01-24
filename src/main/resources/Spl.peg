@@ -1,0 +1,271 @@
+# PEG for Simple Programming Language
+
+# Program structuring syntax
+CompilationUnit <- S (&(INCLUDE) IncludeStatement)*
+	(!(INT "main" OPEN) &(ResultType IDENTIFIER OPEN) MethodDeclaration)*
+	(&(Type IDENTIFIER) VarDeclaration SEMICOLON)*
+	(&(INT "main" OPEN) MainMethodDeclaration / Statement*)?
+	EOI
+
+VarDeclaration <- Type VariableDeclarator (COMMA VariableDeclarator)*
+
+VariableDeclarator <- VariableDeclaratorId (AssignmentLiteral VariableInitializer)?
+
+VariableDeclaratorId <- IDENTIFIER (SQUAREOPEN SQUARECLOSE)*
+
+MethodDeclaration <- ResultType MethodDeclarator Block
+
+MethodDeclarator <- IDENTIFIER FormalParameters
+
+FormalParameters <- OPEN (FormalParameter (COMMA FormalParameter)* )? CLOSE
+
+FormalParameter <- Type VariableDeclaratorId
+
+MainMethodDeclaration <- INT MainMethodDeclarator Block
+
+MainMethodDeclarator <- "main" MainParameter
+
+MainParameter <- OPEN STRING MainDeclaratorId CLOSE
+
+MainDeclaratorId <- "args" (SQUAREOPEN SQUARECLOSE)*
+
+# Method mappings
+
+MappedMethodDeclaration <- MappedBlock
+
+MappedBlock <- CURLYOPEN BlockStatement* CURLYCLOSE
+
+# Expression syntax follows.
+
+Type <- BOOL / BYTE / CHAR / DOUBLE / FLOAT / INT / LONG / SHORT / STRING / FILEREADER / FILEWRITER
+
+ResultType <- VOID / Type
+
+Expression <- (ConditionalOrExpression
+	/ &(IDENTIFIER OPEN) MethodCallStatement
+	/ &("++") PreIncrementExpression
+	/ &("--") PreDecrementExpression
+	/ &(PrimaryExpression "++") PostIncrementExpression
+	/ &(PrimaryExpression "--") PostDecrementExpression
+	/ Assignment) S
+
+VariableInitializer <- ArrayInitializer / Expression
+
+ArrayInitializer <- CURLYOPEN (VariableInitializer (COMMA VariableInitializer)*)? CURLYCLOSE
+
+Assignment <- PrimaryExpression AssignmentLiteral VariableInitializer
+	
+AssignmentLiteral <- ("+=" / "-=" / "*=" / "/=" / "&=" / "%=" / "|=" / "^=" / '=') S
+
+ConditionalOrExpression <- ConditionalAndExpression ("||" S ConditionalAndExpression)*
+
+ConditionalAndExpression <- InclusiveOrExpression ("&&" S InclusiveOrExpression)*
+
+InclusiveOrExpression <- ExclusiveOrExpression ('|' S ExclusiveOrExpression)*
+
+ExclusiveOrExpression <- AndExpression ('^' S AndExpression)*
+
+AndExpression <- EqualityExpression ('&' S EqualityExpression)*
+
+EqualityExpression <- RelationalExpression (EqualityLiteral RelationalExpression)*
+
+EqualityLiteral <- ("==" / "!=") S
+
+RelationalExpression <- AdditiveExpression (RelationalLiteral AdditiveExpression)*
+
+RelationalLiteral <- ("<=" / ">=" / '<' / '>' ) S
+
+AdditiveExpression <- MultiplicativeExpression (AdditiveLiteral MultiplicativeExpression)*
+
+AdditiveLiteral <- ('+' / '-') S
+
+MultiplicativeExpression <- UnaryExpression (MultiplicativeLiteral UnaryExpression)*
+
+MultiplicativeLiteral <- ('*' / '/' / '%') S
+
+UnaryExpression <- UnaryLiteral UnaryExpression
+	/ &("++") PreIncrementExpression
+	/ &("--") PreDecrementExpression
+	/ &(PrimaryExpression "++") PostIncrementExpression
+	/ &(PrimaryExpression "--") PostDecrementExpression
+	/ PrimaryExpression
+
+UnaryLiteral <- ('+' / '-' / '~' / '!') S
+
+PreIncrementExpression <- "++" PrimaryExpression
+
+PreDecrementExpression <- "--" PrimaryExpression
+
+PostIncrementExpression <- PrimaryExpression "++" S
+
+PostDecrementExpression <- PrimaryExpression "--" S
+
+PrimaryExpression <- (&(IDENTIFIER SQUAREOPEN) ArrayId
+	/ Literal
+	/ &(IDENTIFIER OPEN) MethodCallStatement
+	/ OPEN Expression CLOSE
+	/ Id) S
+
+Id <- IDENTIFIER
+
+ArrayId <- IDENTIFIER (SQUAREOPEN (Id
+	/ IntegerLiteral) SQUARECLOSE)*
+
+Literal <- BooleanLiteral
+	/ CharLiteral
+	/ IntegerLiteral
+	/ FloatingPointLiteral
+	/ StringLiteral
+
+BooleanLiteral <- TRUE / FALSE
+
+# Statement syntax follows.
+
+Statement <- (";"
+	/ &(IDENTIFIER COLON) LabeledStatement
+	/ &(IDENTIFIER OPEN) MethodCallStatement SEMICOLON
+	/ Block
+	/ StatementExpression SEMICOLON
+	/ IfStatement
+	/ SwitchStatement
+	/ ForStatement
+	/ WhileStatement
+	/ DoWhileStatement
+	/ BreakStatement
+	/ ContinueStatement
+	/ ReturnStatement
+	/ IOStatement
+	/ JshStatement) S
+
+LabeledStatement <- IDENTIFIER COLON Statement
+
+Block <- CURLYOPEN BlockStatement* CURLYCLOSE
+
+BlockStatement <- &(Type IDENTIFIER) VarDeclaration SEMICOLON
+	/ Statement
+
+StatementExpression <- &("++") PreIncrementExpression
+	/ &("--") PreDecrementExpression
+	/ &(PrimaryExpression "++") PostIncrementExpression
+	/ &(PrimaryExpression "--") PostDecrementExpression
+	/ Assignment
+
+MethodCallStatement <- IDENTIFIER OPEN (Expression (COMMA Expression)*)? CLOSE
+
+IfStatement <- IF OPEN Expression CLOSE Statement (ELSE Statement)?
+
+WhileStatement <- WHILE OPEN Expression CLOSE Statement
+
+DoWhileStatement <- DO Statement WHILE OPEN Expression CLOSE SEMICOLON
+
+SwitchStatement <- SWITCH OPEN Expression CLOSE CURLYOPEN
+    (SwitchLabel BlockStatement*)* CURLYCLOSE
+
+SwitchLabel <- CASE Expression COLON
+/ "default" COLON
+
+ForStatement <- FOR OPEN ForInit? SEMICOLON Expression? SEMICOLON ForUpdate? CLOSE Statement
+
+ForInit <- &(Type IDENTIFIER) VarDeclaration
+/ StatementExpressionList
+
+StatementExpressionList <- StatementExpression (COMMA StatementExpression)*
+
+ForUpdate <- StatementExpressionList
+
+BreakStatement <- BREAK SEMICOLON
+
+ContinueStatement <- CONTINUE SEMICOLON
+
+ReturnStatement <- RETURN Expression? SEMICOLON
+
+IncludeStatement <- INCLUDE StringLiteral SEMICOLON
+
+JshStatement <- JSH StringLiteral SEMICOLON
+
+IOStatement <- ReadStatement / WriteStatement
+
+ReadStatement <- READ IDENTIFIER SEMICOLON
+
+WriteStatement <-
+   WRITE Expression SEMICOLON
+# WRITE IDENTIFIER   
+
+IDENTIFIER <- IdentStart IdentCont* S
+IdentCont <- IdentStart / [0-9]
+IdentStart <- [a-zA-Z_]
+
+#Literals
+IntegerLiteral <- (DecimalLiteral [lL]?) / (HexLiteral [lL]?) / (OctalLiteral [lL]?)
+DecimalLiteral <- [1-9][0-9]*
+HexLiteral <- "0" [xX] [0-9a-fA-F]+
+OctalLiteral <- "0" [0-7]*
+FloatingPointLiteral <- [0-9]+ '.' [0-9]* Exponent? [fFdD]?
+	/ '.' [0-9]+ Exponent? [fFdD]?
+	/ [0-9]+ Exponent [fFdD]?
+	/ [0-9]+ Exponent? [fFdD]
+Exponent <- [eE] [+-]? [0-9]+
+Character <- BackSlash ( Quote
+	/ DoubleQuote
+	/ BackQuote
+	/ BackSlash
+	/ [nrt]
+	/ [0-2][0-7][0-7]
+	/ [0-7][0-7]?)
+	/ !BackSlash .
+BackSlash <- '\\'
+Quote <- '\''
+DoubleQuote <- '\"'
+BackQuote <- '`'
+SEMICOLON <- ';' S
+COLON <- ':' S
+COMMA <- ',' S
+OPEN <- '(' S
+CLOSE <- ')' S
+CURLYOPEN <- '{' S
+CURLYCLOSE <- '}' S
+SQUAREOPEN <- '[' S
+SQUARECLOSE <- ']' S
+CharLiteral <- Quote Character Quote S
+Str <- (!DoubleQuote Character)*
+StringLiteral <- DoubleQuote Str DoubleQuote S
+
+# Token /  Types
+BOOL <- "boolean" S
+BYTE <- "byte" S
+CHAR <- "char" S
+DOUBLE <- "double" S
+FLOAT <- "float" S
+INT <- "int" S
+LONG <- "long" S
+SHORT <- "short" S
+STRING <- "string" S
+FILEREADER <- "filereader" S
+FILEWRITER <- "filewriter" S
+VOID <- "void" S
+CONTINUE <- "continue" S
+BREAK <- "break" S
+CASE <- "case" S
+DO <- "do" S
+ELSE <- "else" S
+FALSE <- "false" S
+FOR <- "for" S
+IF <- "if" S
+IMPORT <- "import" S
+JSH <- "jsh" S
+READ <- "read" S
+RETURN <- "return" S
+SWITCH <- "switch" S
+TRUE <- "true" S
+WHILE <- "while" S
+WRITE <- "write" S
+INCLUDE <- "include" S
+
+# Comments
+SingleLineComment <- "//" (!EOL .)* (EOL/EOI)
+MultiLineComment <- "/*" (!"*/" .)* "*/"
+
+# Whitespaces
+EOL <- '\r\n' / '\n' / '\r'
+S <- (MultiLineComment / ' ' / '\t' / EOL / SingleLineComment )*
+EOI <- !.
