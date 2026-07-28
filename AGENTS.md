@@ -24,7 +24,7 @@
 - Build/compile: `mvn clean compile`
 - Run tests: `mvn test`
 - Package artifact: `mvn package`
-- Java version is set via Maven compiler to 1.7 in `pom.xml`; keep compatibility in mind when introducing APIs.
+- Java version is set via Maven compiler release `26` in `pom.xml`; keep compatibility in mind when introducing APIs.
 - Tests are split by concern:
   - parser tests: `src/test/java/com/github/uscexp/splshell/parser/SplParserTest.java`
   - interpreter tests: `src/test/java/com/github/uscexp/splshell/interpreter/SplInterpreterTest.java`
@@ -51,11 +51,18 @@
 
 ## Do / Don't for AI agents in this repo
 - Do start with `SplInterpreter`, `SplParser`, `Spl.peg`, and `MethodAliases.def` before proposing structural changes.
-- Do preserve Java 1.7 compatibility from `pom.xml` (avoid newer JDK APIs and language features).
+- Do preserve the Java release configured in `pom.xml` (currently `26`) when introducing APIs and language features.
 - Do prefer extending existing helper/mapping patterns (`util/HelperMethods`, alias definitions) over adding new integration layers.
 - Do wrap parser/interpreter execution failures in `SplShellException`, consistent with current entrypoints.
 - Don't introduce alternate interpreter lifecycle patterns while `SplInterpreter` is singleton-based.
 - Don't bypass alias mapping by hard-coding built-ins directly in parser/interpreter logic.
 - Don't change AST naming/style (`Ast<Concept>TreeNode`) or split behavior across unrelated packages.
 - Don't add dependencies for utility functionality already covered by existing libs (`commons-lang3`, grappa extension stack).
+
+## First 30 minutes (agent fast start)
+- Read in order: `SplInterpreter.java` -> `SplParser.java` -> `Spl.peg` -> `MethodAliases.def`.
+- Decide change layer first (grammar/parser vs runtime/interpreter) and keep file edits within that boundary.
+- For new SPL-callable behavior, add alias mapping first, then implement Java backing method.
+- Reuse existing AST naming and runtime patterns; avoid introducing new lifecycle or integration paths.
+- Validate with `mvn test`; for parser-affecting changes, verify both `SplParserTest` and `SplInterpreterTest` impact.
 

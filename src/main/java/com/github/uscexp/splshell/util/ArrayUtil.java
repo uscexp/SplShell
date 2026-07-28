@@ -3,8 +3,8 @@ package com.github.uscexp.splshell.util;
 import java.lang.reflect.Array;
 import java.util.List;
 
-import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 
 public class ArrayUtil {
 

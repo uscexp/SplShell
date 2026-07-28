@@ -6,10 +6,10 @@ package com.github.uscexp.splshell.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
-import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodDeclaration;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodSignature;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.util.IStack;
 import com.github.uscexp.splshell.interpreter.MethodDefinition;
 import com.github.uscexp.splshell.interpreter.MethodIdentification;
 import com.github.uscexp.splshell.interpreter.ScriptMethodDefinition;

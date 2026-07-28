@@ -3,7 +3,7 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 
 
 /**

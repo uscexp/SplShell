@@ -3,8 +3,8 @@
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.nodes.AstTreeNode;
 
 /**
  * Command implementation for the <code>SplParser</code> rule:

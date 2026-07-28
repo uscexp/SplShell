@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: mappedBlock.

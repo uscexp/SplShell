@@ -18,16 +18,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.fge.grappa.Grappa;
 import com.github.uscexp.blockformatpropertyfile.PropertyFile;
 import com.github.uscexp.blockformatpropertyfile.PropertyStruct;
 import com.github.uscexp.blockformatpropertyfile.exception.PropertyFileException;
-import com.github.uscexp.grappa.extension.interpreter.AstInterpreter;
-import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
-import com.github.uscexp.grappa.extension.parser.Parser;
+import com.github.uscexp.parboiled.extension.interpreter.AstInterpreter;
+import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
+import com.github.uscexp.parboiled.extension.nodes.AstTreeNode;
+import com.github.uscexp.parboiled.extension.parser.Parser;
 import com.github.uscexp.splshell.exception.SplShellException;
 import com.github.uscexp.splshell.parser.SplParser;
+import org.parboiled.parser.Parboiled;
 
 /**
  * @author haui
@@ -50,7 +50,7 @@ public class SplInterpreter {
 
 	private SplInterpreter(OutputStream astTreePrintStream) {
 		this.astTreePrintStream = astTreePrintStream;
-		parser = Grappa.createParser(SplParser.class);
+		parser = Parboiled.createParser(SplParser.class);
 	}
 
 	public static SplInterpreter getInstance() {

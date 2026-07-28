@@ -18,9 +18,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
-import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodDeclaration;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 
 /**
  * @author haui

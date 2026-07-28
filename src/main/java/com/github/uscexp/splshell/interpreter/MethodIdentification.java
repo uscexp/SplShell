@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodSignature;
 
 /**
  * @author haui
