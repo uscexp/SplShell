@@ -3,8 +3,8 @@
  */
 package com.github.uscexp.splshell.interpreter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
 import com.github.uscexp.parboiled.extension.interpreter.type.MethodDeclaration;
