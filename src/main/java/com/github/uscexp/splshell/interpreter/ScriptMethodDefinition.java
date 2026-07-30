@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.interpreter;
 
