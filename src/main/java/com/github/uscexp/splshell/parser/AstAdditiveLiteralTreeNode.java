@@ -17,4 +17,10 @@ public class AstAdditiveLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 			throws Exception {
 		super.interpretAfterChilds(id);
 	}
+
+	@Override
+	protected void interpretBeforeChilds(Long id) throws Exception {
+		super.interpretBeforeChilds(id);
+		processStore.getTierStack().push(this.value.trim());
+	}
 }

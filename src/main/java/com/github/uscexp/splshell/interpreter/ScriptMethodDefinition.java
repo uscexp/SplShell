@@ -65,7 +65,7 @@ public class ScriptMethodDefinition implements MethodDeclaration {
 		AstTreeNode<String> methodImplementaion = getMethodImplementaion();
 		
 		for (int j = 0; j < args.size(); j++) {
-			processStore.setNewVariable(getParameter()[j], args.get(j));
+			processStore.setNewVariable(getParameter()[j].getName(), args.get(j));
 		}
 		
 		AstInterpreter<String> astInterpreter = new AstInterpreter<>();
