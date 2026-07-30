@@ -9,9 +9,9 @@ int main( string args[])
 	int n2;
 	int count = 1;
 	int count1 = count;
-	int count2 = 3;
+	int count2 = 2;
 	char c;
-	string text = "das ist ein test!\n";
+	string text = "das ist ein test!" + '\n';
 	char ct[];
 	/*
 	filereader fr = openFileToRead( "test.spl");
@@ -23,7 +23,7 @@ int main( string args[])
 	}
 	while( (text = readLine(fr)) != isEOF())
 	{
-	  write text + "\n";
+	  write text + '\n';
 	}
 	closeFileReader(fr);
 	
@@ -36,7 +36,7 @@ int main( string args[])
 	
 	for( int i = 0; i < arrayLength(ct); ++i)
 	{
-	  write ct[i] + "\n";
+	  write ct[i] + '\n';
 	}
 	
 	--count;
@@ -55,15 +55,15 @@ int main( string args[])
 	switch( count)
 	{
 	  case 0:
-	    write "case 0\n";
+	    write "case 0" + '\n';
 	    break;
 	    
 	  case 1:
-	    write "case 1\n";
+	    write "case 1" + '\n';
 	    break;
 	
 	  default:
-	    write "default case\n";
+	    write "default case" + '\n';
 	    break;
 	}
 	
@@ -75,7 +75,7 @@ int main( string args[])
 	    {
 	      string name = "iArr[" + n + "][" + n1 + "][" + n2 + "]";
 	      printInt( name, iArr[n][n1][n2]);
-		  //write "Value of iArr[" + n + "][" + n1 + "][" + n2 + "]: " + iArr[n][n1][n2] + "\n";
+		  //write "Value of iArr[" + n + "][" + n1 + "][" + n2 + "]: " + iArr[n][n1][n2] + '\n';
 		  ++n2;
 	    }
 	    n2 = 0;
@@ -85,7 +85,7 @@ int main( string args[])
 	  ++n;
 	}
 	
-	write "for loop \n";
+	write "for loop" + '\n';
 	
 	for( int i = 0; i < count; ++i)
 	{
@@ -93,7 +93,7 @@ int main( string args[])
 	  {
 	    for( int iii = 0; iii < count2; ++iii)
 	    {
-		  write "Value of iArr[" + i + "][" + ii + "][" + iii + "]: " + iArr[i][ii][iii] + "\n";
+		  write "Value of iArr[" + i + "][" + ii + "][" + iii + "]: " + iArr[i][ii][iii] + '\n';
 		}
 	  }
 	}
@@ -107,7 +107,7 @@ int main( string args[])
 	  write "In Block; b: " + b;
 	}
 	
-	write "\njsh ls\n";
+	write '\n' + "jsh ls" + '\n';
 	
 	jsh "ls -l";
 	

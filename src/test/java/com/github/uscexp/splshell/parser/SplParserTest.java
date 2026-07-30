@@ -1,15 +1,15 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.github.fge.grappa.Grappa;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
-import com.github.uscexp.grappa.extension.parser.Parser;
+import com.github.uscexp.parboiled.extension.nodes.AstTreeNode;
+import com.github.uscexp.parboiled.extension.parser.Parser;
+import org.parboiled.parser.Parboiled;
 
 /**
  * @author haui
@@ -34,7 +34,7 @@ public class SplParserTest {
 				"\r\n" + 
 				"write fact;\r\n";
 
-		SplParser parser = Grappa.createParser(SplParser.class);
+		SplParser parser = Parboiled.createParser(SplParser.class);
 		AstTreeNode<String> rootNode = Parser.parseInput(SplParser.class, parser.compilationUnit(), input, true);
 
 		assertNotNull(rootNode);

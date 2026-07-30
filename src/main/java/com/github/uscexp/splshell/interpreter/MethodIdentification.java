@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.interpreter;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodSignature;
 
 /**
  * @author haui

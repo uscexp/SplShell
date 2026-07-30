@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
@@ -7,7 +7,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 import com.github.uscexp.splshell.interpreter.SplInterpreter;
 
 /**

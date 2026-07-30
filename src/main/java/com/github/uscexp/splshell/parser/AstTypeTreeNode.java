@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2014 - 2016 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.parboiled.extension.util.IStack;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: type.

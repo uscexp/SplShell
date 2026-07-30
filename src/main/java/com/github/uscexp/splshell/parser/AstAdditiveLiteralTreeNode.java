@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 - 2016 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
@@ -16,5 +16,11 @@ public class AstAdditiveLiteralTreeNode<V> extends AstBaseCommandTreeNode<V> {
 	protected void interpretAfterChilds(Long id)
 			throws Exception {
 		super.interpretAfterChilds(id);
+	}
+
+	@Override
+	protected void interpretBeforeChilds(Long id) throws Exception {
+		super.interpretBeforeChilds(id);
+		processStore.getTierStack().push(this.value.trim());
 	}
 }

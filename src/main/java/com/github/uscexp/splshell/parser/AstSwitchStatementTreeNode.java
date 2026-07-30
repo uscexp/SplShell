@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 - 2016 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
-import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.nodes.AstTreeNode;
+import com.github.uscexp.parboiled.extension.util.IStack;
 
 /**
  * Command implementation for the <code>SplParser</code> rule: switchStatement.

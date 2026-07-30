@@ -1,17 +1,17 @@
 /*
- * Copyright (C) 2014 - 2015 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.interpreter;
 
 import java.util.List;
 
-import com.github.uscexp.grappa.extension.exception.AstInterpreterException;
-import com.github.uscexp.grappa.extension.interpreter.AstInterpreter;
-import com.github.uscexp.grappa.extension.interpreter.ProcessStore;
-import com.github.uscexp.grappa.extension.interpreter.type.MethodDeclaration;
-import com.github.uscexp.grappa.extension.interpreter.type.MethodSignature;
-import com.github.uscexp.grappa.extension.nodes.AstTreeNode;
-import com.github.uscexp.grappa.extension.util.IStack;
+import com.github.uscexp.parboiled.extension.exception.AstInterpreterException;
+import com.github.uscexp.parboiled.extension.interpreter.AstInterpreter;
+import com.github.uscexp.parboiled.extension.interpreter.ProcessStore;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodDeclaration;
+import com.github.uscexp.parboiled.extension.interpreter.type.MethodSignature;
+import com.github.uscexp.parboiled.extension.nodes.AstTreeNode;
+import com.github.uscexp.parboiled.extension.util.IStack;
 import com.github.uscexp.splshell.parser.SplParser;
 
 /**
@@ -65,7 +65,7 @@ public class ScriptMethodDefinition implements MethodDeclaration {
 		AstTreeNode<String> methodImplementaion = getMethodImplementaion();
 		
 		for (int j = 0; j < args.size(); j++) {
-			processStore.setNewVariable(getParameter()[j], args.get(j));
+			processStore.setNewVariable(getParameter()[j].getName(), args.get(j));
 		}
 		
 		AstInterpreter<String> astInterpreter = new AstInterpreter<>();

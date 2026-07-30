@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2014 - 2016 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
 import java.util.ArrayList;
 
-import com.github.uscexp.grappa.extension.interpreter.type.Primitive;
+import com.github.uscexp.parboiled.extension.interpreter.type.Primitive;
 import com.github.uscexp.splshell.util.ArrayUtil;
 
 /**

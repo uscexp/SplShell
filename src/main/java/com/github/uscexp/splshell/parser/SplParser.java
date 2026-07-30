@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2014 - 2016 by haui - all rights reserved
+ * Copyright (C) 2014 - 2026 by haui - all rights reserved
  */
 package com.github.uscexp.splshell.parser;
 
-import com.github.fge.grappa.parsers.BaseParser;
-import com.github.fge.grappa.rules.Rule;
-import com.github.uscexp.grappa.extension.annotations.AstCommand;
+import com.github.uscexp.parboiled.extension.annotations.AstCommand;
+import org.parboiled.Rule;
+import org.parboiled.parser.BaseParser;
 
 /**
  * Generated {@link BaseParser} implementation form 'Spl.peg' PEG input file.
@@ -15,298 +15,298 @@ import com.github.uscexp.grappa.extension.annotations.AstCommand;
 public class SplParser extends BaseParser<String> {
 
 	public Rule S() {
-        return zeroOrMore(firstOf(multiLineComment(), ch(' '), ch('\t'), EOL(), singleLineComment()));
+        return ZeroOrMore(FirstOf(multiLineComment(), Ch(' '), Ch('\t'), EOL(), singleLineComment()));
 	}
 
 	public Rule EOL() {
-		return firstOf(string("\r\n"), ch('\n'), ch('\r'));
+		return FirstOf(String("\r\n"), Ch('\n'), Ch('\r'));
 	}
 
 	public Rule multiLineComment() {
-        return sequence(string("/*"), zeroOrMore(sequence(testNot(string("*/")), ANY)), string("*/"));
+        return Sequence(String("/*"), ZeroOrMore(Sequence(TestNot(String("*/")), ANY)), String("*/"));
 	}
 
 	public Rule singleLineComment() {
-		return sequence(string("//"), zeroOrMore(sequence(testNot(EOL()), ANY)), firstOf(EOL(), EOI));
+		return Sequence(String("//"), ZeroOrMore(Sequence(TestNot(EOL()), ANY)), FirstOf(EOL(), EOI));
 	}
 
 	public Rule INCLUDE() {
-		return sequence(string("include"), S());
+		return Sequence(String("include"), S());
 	}
 
 	public Rule WRITE() {
-		return sequence(string("write"), S());
+		return Sequence(String("write"), S());
 	}
 
 	public Rule WHILE() {
-		return sequence(string("while"), S());
+		return Sequence(String("while"), S());
 	}
 
 	public Rule TRUE() {
-		return sequence(string("true"), S());
+		return Sequence(String("true"), S());
 	}
 
 	public Rule SWITCH() {
-		return sequence(string("switch"), S());
+		return Sequence(String("switch"), S());
 	}
 
 	public Rule RETURN() {
-		return sequence(string("return"), S());
+		return Sequence(String("return"), S());
 	}
 
 	public Rule READ() {
-		return sequence(string("read"), S());
+		return Sequence(String("read"), S());
 	}
 
 	public Rule JSH() {
-		return sequence(string("jsh"), S());
+		return Sequence(String("jsh"), S());
 	}
 
 	public Rule IMPORT() {
-		return sequence(string("import"), S());
+		return Sequence(String("import"), S());
 	}
 
 	public Rule IF() {
-		return sequence(string("if"), S());
+		return Sequence(String("if"), S());
 	}
 
 	public Rule FOR() {
-		return sequence(string("for"), S());
+		return Sequence(String("for"), S());
 	}
 
 	public Rule FALSE() {
-		return sequence(string("false"), S());
+		return Sequence(String("false"), S());
 	}
 
 	public Rule ELSE() {
-		return sequence(string("else"), S());
+		return Sequence(String("else"), S());
 	}
 
 	public Rule DO() {
-		return sequence(string("do"), S());
+		return Sequence(String("do"), S());
 	}
 
 	public Rule CASE() {
-		return sequence(string("case"), S());
+		return Sequence(String("case"), S());
 	}
 
 	public Rule BREAK() {
-		return sequence(string("break"), S());
+		return Sequence(String("break"), S());
 	}
 
 	public Rule CONTINUE() {
-		return sequence(string("continue"), S());
+		return Sequence(String("continue"), S());
 	}
 
 	public Rule VOID() {
-		return sequence(string("void"), S());
+		return Sequence(String("void"), S());
 	}
 
 	public Rule FILEWRITER() {
-		return sequence(string("filewriter"), S());
+		return Sequence(String("filewriter"), S());
 	}
 
 	public Rule FILEREADER() {
-		return sequence(string("filereader"), S());
+		return Sequence(String("filereader"), S());
 	}
 
 	public Rule STRING() {
-		return sequence(string("string"), S());
+		return Sequence(String("string"), S());
 	}
 
 	public Rule SHORT() {
-		return sequence(string("short"), S());
+		return Sequence(String("short"), S());
 	}
 
 	public Rule LONG() {
-		return sequence(string("long"), S());
+		return Sequence(String("long"), S());
 	}
 
 	public Rule INT() {
-		return sequence(string("int"), S());
+		return Sequence(String("int"), S());
 	}
 
 	public Rule FLOAT() {
-		return sequence(string("float"), S());
+		return Sequence(String("float"), S());
 	}
 
 	public Rule DOUBLE() {
-		return sequence(string("double"), S());
+		return Sequence(String("double"), S());
 	}
 
 	public Rule CHAR() {
-		return sequence(string("char"), S());
+		return Sequence(String("char"), S());
 	}
 
 	public Rule BYTE() {
-		return sequence(string("byte"), S());
+		return Sequence(String("byte"), S());
 	}
 
 	public Rule BOOL() {
-		return sequence(string("boolean"), S());
+		return Sequence(String("boolean"), S());
 	}
 
 	@AstCommand
 	public Rule stringLiteral() {
-		return sequence(doubleQuote(), str(), doubleQuote(), S());
+		return Sequence(doubleQuote(), str(), doubleQuote(), S());
 	}
 
 	public Rule str() {
-		return zeroOrMore(sequence(testNot(doubleQuote()), character()));
+		return ZeroOrMore(Sequence(TestNot(doubleQuote()), character()));
 	}
 
 	@AstCommand
 	public Rule charLiteral() {
-		return sequence(quote(), character(), quote(), S());
+		return Sequence(quote(), character(), quote(), S());
 	}
 
 	public Rule SQUARECLOSE() {
-		return sequence(ch(']'), S());
+		return Sequence(Ch(']'), S());
 	}
 
 	public Rule SQUAREOPEN() {
-		return sequence(ch('['), S());
+		return Sequence(Ch('['), S());
 	}
 
 	@AstCommand
 	public Rule CURLYCLOSE() {
-		return sequence(ch('}'), S());
+		return Sequence(Ch('}'), S());
 	}
 
 	@AstCommand
 	public Rule CURLYOPEN() {
-		return sequence(ch('{'), S());
+		return Sequence(Ch('{'), S());
 	}
 
 	public Rule CLOSE() {
-		return sequence(ch(')'), S());
+		return Sequence(Ch(')'), S());
 	}
 
 	public Rule OPEN() {
-		return sequence(ch('('), S());
+		return Sequence(Ch('('), S());
 	}
 
 	public Rule COMMA() {
-		return sequence(ch(','), S());
+		return Sequence(Ch(','), S());
 	}
 
 	public Rule COLON() {
-		return sequence(ch(':'), S());
+		return Sequence(Ch(':'), S());
 	}
 
 	public Rule SEMICOLON() {
-		return sequence(ch(';'), S());
+		return Sequence(Ch(';'), S());
 	}
 
 	public Rule backQuote() {
-		return ch('`');
+		return Ch('`');
 	}
 
 	public Rule doubleQuote() {
-		return ch('\"');
+		return Ch('\"');
 	}
 
 	public Rule quote() {
-		return ch('\'');
+		return Ch('\'');
 	}
 
 	public Rule backSlash() {
-		return ch('\\');
+		return Ch('\\');
 	}
 
 	public Rule character() {
 		return
-			firstOf(sequence(backSlash(),
-					firstOf(quote(), doubleQuote(), backQuote(), backSlash(), firstOf(ch('n'), ch('r'), ch('t')),
-						sequence(charRange('0', '2'), charRange('0', '7'), charRange('0', '7')),
-						sequence(charRange('0', '7'), optional(charRange('0', '7'))))), sequence(testNot(backSlash()), ANY));
+			FirstOf(Sequence(backSlash(),
+					FirstOf(quote(), doubleQuote(), backQuote(), backSlash(), FirstOf(Ch('n'), Ch('r'), Ch('t')),
+						Sequence(CharRange('0', '2'), CharRange('0', '7'), CharRange('0', '7')),
+						Sequence(CharRange('0', '7'), Optional(CharRange('0', '7'))))), Sequence(TestNot(backSlash()), ANY));
 	}
 
 	public Rule exponent() {
-		return sequence(firstOf(ch('e'), ch('E')), oneOrMore(firstOf(charRange('+', ']'), ch('?'), ch(' '), ch('['), charRange('0', '9'))));
+		return Sequence(FirstOf(Ch('e'), Ch('E')), OneOrMore(FirstOf(CharRange('+', ']'), Ch('?'), Ch(' '), Ch('['), CharRange('0', '9'))));
 	}
 
 	@AstCommand
 	public Rule floatingPointLiteral() {
 		return
-			firstOf(sequence(oneOrMore(charRange('0', '9')), ch('.'), zeroOrMore(charRange('0', '9')), optional(exponent()),
-					optional(firstOf(ch('f'), ch('F'), ch('d'), ch('D')))),
-				sequence(ch('.'), oneOrMore(charRange('0', '9')), optional(exponent()),
-					optional(firstOf(ch('f'), ch('F'), ch('d'), ch('D')))),
-				sequence(oneOrMore(charRange('0', '9')), exponent(), optional(firstOf(ch('f'), ch('F'), ch('d'), ch('D')))),
-				sequence(oneOrMore(charRange('0', '9')), optional(exponent()), firstOf(ch('f'), ch('F'), ch('d'), ch('D'))));
+			FirstOf(Sequence(OneOrMore(CharRange('0', '9')), Ch('.'), ZeroOrMore(CharRange('0', '9')), Optional(exponent()),
+					Optional(FirstOf(Ch('f'), Ch('F'), Ch('d'), Ch('D')))),
+				Sequence(Ch('.'), OneOrMore(CharRange('0', '9')), Optional(exponent()),
+					Optional(FirstOf(Ch('f'), Ch('F'), Ch('d'), Ch('D')))),
+				Sequence(OneOrMore(CharRange('0', '9')), exponent(), Optional(FirstOf(Ch('f'), Ch('F'), Ch('d'), Ch('D')))),
+				Sequence(OneOrMore(CharRange('0', '9')), Optional(exponent()), FirstOf(Ch('f'), Ch('F'), Ch('d'), Ch('D'))));
 	}
 
 	public Rule octalLiteral() {
-		return sequence(ch('0'), zeroOrMore(charRange('0', '7')));
+		return Sequence(Ch('0'), ZeroOrMore(CharRange('0', '7')));
 	}
 
 	public Rule hexLiteral() {
 		return
-			sequence(ch('0'), firstOf(ch('x'), ch('X')), oneOrMore(firstOf(charRange('0', '9'), charRange('a', 'f'), charRange('A', 'F'))));
+			Sequence(Ch('0'), FirstOf(Ch('x'), Ch('X')), OneOrMore(FirstOf(CharRange('0', '9'), CharRange('a', 'f'), CharRange('A', 'F'))));
 	}
 
 	public Rule decimalLiteral() {
-		return sequence(charRange('1', '9'), zeroOrMore(charRange('0', '9')));
+		return Sequence(CharRange('1', '9'), ZeroOrMore(CharRange('0', '9')));
 	}
 
 	@AstCommand
 	public Rule integerLiteral() {
 		return
-			firstOf(sequence(decimalLiteral(), optional(firstOf(ch('l'), ch('L')))),
-				sequence(hexLiteral(), optional(firstOf(ch('l'), ch('L')))), sequence(octalLiteral(), optional(firstOf(ch('l'), ch('L')))));
+			FirstOf(Sequence(decimalLiteral(), Optional(FirstOf(Ch('l'), Ch('L')))),
+				Sequence(hexLiteral(), Optional(FirstOf(Ch('l'), Ch('L')))), Sequence(octalLiteral(), Optional(FirstOf(Ch('l'), Ch('L')))));
 	}
 
 	public Rule identStart() {
-		return firstOf(charRange('a', 'z'), charRange('A', 'Z'), ch('_'));
+		return FirstOf(CharRange('a', 'z'), CharRange('A', 'Z'), Ch('_'));
 	}
 
 	public Rule identCont() {
-		return firstOf(identStart(), charRange('0', '9'));
+		return FirstOf(identStart(), CharRange('0', '9'));
 	}
 
 	@AstCommand
 	public Rule IDENTIFIER() {
-        return sequence(identStart(), zeroOrMore(identCont()), S());
+        return Sequence(identStart(), ZeroOrMore(identCont()), S());
 	}
 
 	@AstCommand
 	public Rule writeStatement() {
-		return sequence(WRITE(), expression(), SEMICOLON());
+		return Sequence(WRITE(), expression(), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule readStatement() {
-		return sequence(READ(), IDENTIFIER(), SEMICOLON());
+		return Sequence(READ(), IDENTIFIER(), SEMICOLON());
 	}
 
 	public Rule iOStatement() {
-		return firstOf(readStatement(), writeStatement());
+		return FirstOf(readStatement(), writeStatement());
 	}
 
 	@AstCommand
 	public Rule jshStatement() {
-		return sequence(JSH(), stringLiteral(), SEMICOLON());
+		return Sequence(JSH(), stringLiteral(), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule includeStatement() {
-		return sequence(INCLUDE(), stringLiteral(), SEMICOLON());
+		return Sequence(INCLUDE(), stringLiteral(), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule returnStatement() {
-		return sequence(RETURN(), optional(expression()), SEMICOLON());
+		return Sequence(RETURN(), Optional(expression()), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule continueStatement() {
-		return sequence(CONTINUE(), SEMICOLON());
+		return Sequence(CONTINUE(), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule breakStatement() {
-		return sequence(BREAK(), SEMICOLON());
+		return Sequence(BREAK(), SEMICOLON());
 	}
 
 	@AstCommand
@@ -315,96 +315,96 @@ public class SplParser extends BaseParser<String> {
 	}
 
 	public Rule statementExpressionList() {
-		return sequence(statementExpression(), zeroOrMore(sequence(COMMA(), statementExpression())));
+		return Sequence(statementExpression(), ZeroOrMore(Sequence(COMMA(), statementExpression())));
 	}
 
 	@AstCommand
 	public Rule forInit() {
-		return firstOf(sequence(test(sequence(type(), IDENTIFIER())), varDeclaration()), statementExpressionList());
+		return FirstOf(Sequence(Test(Sequence(type(), IDENTIFIER())), varDeclaration()), statementExpressionList());
 	}
 
 	@AstCommand
 	public Rule forStatement() {
 		return
-			sequence(FOR(), OPEN(), optional(forInit()), SEMICOLON(), optional(expression()), SEMICOLON(), optional(forUpdate()), CLOSE(),
+			Sequence(FOR(), OPEN(), Optional(forInit()), SEMICOLON(), Optional(expression()), SEMICOLON(), Optional(forUpdate()), CLOSE(),
 				statement());
 	}
 
 	@AstCommand
 	public Rule switchLabel() {
-		return firstOf(sequence(CASE(), expression(), COLON()), sequence(string("default"), COLON()));
+		return FirstOf(Sequence(CASE(), expression(), COLON()), Sequence(String("default"), COLON()));
 	}
 
 	@AstCommand
 	public Rule switchStatement() {
 		return
-			sequence(SWITCH(), OPEN(), expression(), CLOSE(), CURLYOPEN(),
-				zeroOrMore(sequence(switchLabel(), zeroOrMore(blockStatement()))), CURLYCLOSE());
+			Sequence(SWITCH(), OPEN(), expression(), CLOSE(), CURLYOPEN(),
+				ZeroOrMore(Sequence(switchLabel(), ZeroOrMore(blockStatement()))), CURLYCLOSE());
 	}
 
 	@AstCommand
 	public Rule doWhileStatement() {
-		return sequence(DO(), statement(), WHILE(), OPEN(), expression(), CLOSE(), SEMICOLON());
+		return Sequence(DO(), statement(), WHILE(), OPEN(), expression(), CLOSE(), SEMICOLON());
 	}
 
 	@AstCommand
 	public Rule whileStatement() {
-		return sequence(WHILE(), OPEN(), expression(), CLOSE(), statement());
+		return Sequence(WHILE(), OPEN(), expression(), CLOSE(), statement());
 	}
 
 	@AstCommand
 	public Rule ifStatement() {
-		return sequence(IF(), OPEN(), expression(), CLOSE(), statement(), optional(sequence(ELSE(), statement())));
+		return Sequence(IF(), OPEN(), expression(), CLOSE(), statement(), Optional(Sequence(ELSE(), statement())));
 	}
 
 	@AstCommand
 	public Rule methodCallStatement() {
-		return sequence(IDENTIFIER(), OPEN(), optional(sequence(expression(), zeroOrMore(sequence(COMMA(), expression())))), CLOSE());
+		return Sequence(IDENTIFIER(), OPEN(), Optional(Sequence(expression(), ZeroOrMore(Sequence(COMMA(), expression())))), CLOSE());
 	}
 
 	@AstCommand
 	public Rule statementExpression() {
 		return
-			firstOf(sequence(test(string("++")), preIncrementExpression()), sequence(test(string("--")), preDecrementExpression()),
-				sequence(test(sequence(primaryExpression(), string("++"))), postIncrementExpression()),
-				sequence(test(sequence(primaryExpression(), string("--"))), postDecrementExpression()), assignment());
+			FirstOf(Sequence(Test(String("++")), preIncrementExpression()), Sequence(Test(String("--")), preDecrementExpression()),
+				Sequence(Test(Sequence(primaryExpression(), String("++"))), postIncrementExpression()),
+				Sequence(Test(Sequence(primaryExpression(), String("--"))), postDecrementExpression()), assignment());
 	}
 
 	@AstCommand
 	public Rule blockStatement() {
-		return firstOf(sequence(test(sequence(type(), IDENTIFIER())), varDeclaration(), SEMICOLON()), statement());
+		return FirstOf(Sequence(Test(Sequence(type(), IDENTIFIER())), varDeclaration(), SEMICOLON()), statement());
 	}
 
 	@AstCommand
 	public Rule block() {
-		return sequence(CURLYOPEN(), zeroOrMore(blockStatement()), CURLYCLOSE());
+		return Sequence(CURLYOPEN(), ZeroOrMore(blockStatement()), CURLYCLOSE());
 	}
 
 	@AstCommand
 	public Rule labeledStatement() {
-		return sequence(IDENTIFIER(), COLON(), statement());
+		return Sequence(IDENTIFIER(), COLON(), statement());
 	}
 
 	public Rule statement() {
 		return
-			sequence(firstOf(ch(';'), sequence(test(sequence(IDENTIFIER(), COLON())), labeledStatement()),
-					sequence(test(sequence(IDENTIFIER(), OPEN())), methodCallStatement(), SEMICOLON()), block(),
-					sequence(statementExpression(), SEMICOLON()), ifStatement(), switchStatement(), forStatement(), whileStatement(),
+			Sequence(FirstOf(Ch(';'), Sequence(Test(Sequence(IDENTIFIER(), COLON())), labeledStatement()),
+					Sequence(Test(Sequence(IDENTIFIER(), OPEN())), methodCallStatement(), SEMICOLON()), block(),
+					Sequence(statementExpression(), SEMICOLON()), ifStatement(), switchStatement(), forStatement(), whileStatement(),
 					doWhileStatement(), breakStatement(), continueStatement(), returnStatement(), iOStatement(), jshStatement()), S());
 	}
 
 	@AstCommand
 	public Rule booleanLiteral() {
-		return firstOf(TRUE(), FALSE());
+		return FirstOf(TRUE(), FALSE());
 	}
 
 	public Rule literal() {
-		return firstOf(booleanLiteral(), charLiteral(), integerLiteral(), floatingPointLiteral(), stringLiteral());
+		return FirstOf(booleanLiteral(), charLiteral(), integerLiteral(), floatingPointLiteral(), stringLiteral());
 	}
 
 	@AstCommand
 	public Rule arrayId() {
-		return sequence(IDENTIFIER(), zeroOrMore(sequence(SQUAREOPEN(), firstOf(id(), integerLiteral()), SQUARECLOSE())));
+		return Sequence(IDENTIFIER(), ZeroOrMore(Sequence(SQUAREOPEN(), FirstOf(id(), integerLiteral()), SQUARECLOSE())));
 	}
 
 	@AstCommand
@@ -415,156 +415,156 @@ public class SplParser extends BaseParser<String> {
 	@AstCommand
 	public Rule primaryExpression() {
 		return
-			sequence(firstOf(sequence(test(sequence(IDENTIFIER(), SQUAREOPEN())), arrayId()), literal(),
-					sequence(test(sequence(IDENTIFIER(), OPEN())), methodCallStatement()), sequence(OPEN(), expression(), CLOSE()), id()),
+			Sequence(FirstOf(Sequence(Test(Sequence(IDENTIFIER(), SQUAREOPEN())), arrayId()), literal(),
+					Sequence(Test(Sequence(IDENTIFIER(), OPEN())), methodCallStatement()), Sequence(OPEN(), expression(), CLOSE()), id()),
 				S());
 	}
 
 
 	@AstCommand
 	public Rule postDecrementExpression() {
-		return sequence(primaryExpression(), string("--"));
+		return Sequence(primaryExpression(), String("--"));
 	}
 
 	@AstCommand
 	public Rule postIncrementExpression() {
-		return sequence(primaryExpression(), string("++"));
+		return Sequence(primaryExpression(), String("++"));
 	}
 
 	@AstCommand
 	public Rule preDecrementExpression() {
-		return sequence(string("--"), primaryExpression());
+		return Sequence(String("--"), primaryExpression());
 	}
 
 	@AstCommand
 	public Rule preIncrementExpression() {
-		return sequence(string("++"), primaryExpression());
+		return Sequence(String("++"), primaryExpression());
 	}
 
 	@AstCommand
     public Rule unaryLiteral() {
-        return sequence(firstOf(ch('+'), ch('-'), ch('~'), ch('!')), S());
+        return Sequence(FirstOf(Ch('+'), Ch('-'), Ch('~'), Ch('!')), S());
     }
 
 	@AstCommand
 	public Rule unaryExpression() {
 		return
-			firstOf(sequence(unaryLiteral(), unaryExpression()), sequence(test(string("++")), preIncrementExpression()),
-				sequence(test(string("--")), preDecrementExpression()),
-				sequence(test(sequence(primaryExpression(), string("++"))), postIncrementExpression()),
-				sequence(test(sequence(primaryExpression(), string("--"))), postDecrementExpression()), primaryExpression());
+			FirstOf(Sequence(unaryLiteral(), unaryExpression()), Sequence(Test(String("++")), preIncrementExpression()),
+				Sequence(Test(String("--")), preDecrementExpression()),
+				Sequence(Test(Sequence(primaryExpression(), String("++"))), postIncrementExpression()),
+				Sequence(Test(Sequence(primaryExpression(), String("--"))), postDecrementExpression()), primaryExpression());
 	}
 
 	@AstCommand
     public Rule multiplicativeLiteral() {
-        return sequence(firstOf(ch('*'), ch('/'), ch('%')), S());
+        return Sequence(FirstOf(Ch('*'), Ch('/'), Ch('%')), S());
     }
 
 	@AstCommand
 	public Rule multiplicativeExpression() {
-        return sequence(unaryExpression(), zeroOrMore(sequence(multiplicativeLiteral(), unaryExpression())));
+        return Sequence(unaryExpression(), ZeroOrMore(Sequence(multiplicativeLiteral(), unaryExpression())));
 	}
 
 	@AstCommand
     public Rule additiveLiteral() {
-        return sequence(firstOf(ch('+'), ch('-')), S());
+        return Sequence(FirstOf(Ch('+'), Ch('-')), S());
     }
 
 	@AstCommand
 	public Rule additiveExpression() {
-        return sequence(multiplicativeExpression(), zeroOrMore(sequence(additiveLiteral(), multiplicativeExpression())));
+        return Sequence(multiplicativeExpression(), ZeroOrMore(Sequence(additiveLiteral(), multiplicativeExpression())));
 	}
 
 	@AstCommand
     public Rule relationalLiteral() {
-        return sequence(firstOf(string("<="), string(">="), ch('<'), ch('>')), S());
+        return Sequence(FirstOf(String("<="), String(">="), Ch('<'), Ch('>')), S());
     }
 
 	@AstCommand
 	public Rule relationalExpression() {
-        return sequence(additiveExpression(), zeroOrMore(sequence(relationalLiteral(), additiveExpression())));
+        return Sequence(additiveExpression(), ZeroOrMore(Sequence(relationalLiteral(), additiveExpression())));
 	}
 
 	@AstCommand
     public Rule equalityLiteral() {
-        return sequence(firstOf(string("=="), string("!=")), S());
+        return Sequence(FirstOf(String("=="), String("!=")), S());
     }
 
 	@AstCommand
     public Rule equalityExpression() {
-        return sequence(relationalExpression(), zeroOrMore(sequence(equalityLiteral(), relationalExpression())));
+        return Sequence(relationalExpression(), ZeroOrMore(Sequence(equalityLiteral(), relationalExpression())));
 	}
 
 	@AstCommand
 	public Rule andExpression() {
-        return sequence(equalityExpression(), zeroOrMore(sequence(ch('&'), S(), equalityExpression())));
+        return Sequence(equalityExpression(), ZeroOrMore(Sequence(Ch('&'), S(), equalityExpression())));
 	}
 
 	@AstCommand
 	public Rule exclusiveOrExpression() {
-        return sequence(andExpression(), zeroOrMore(sequence(ch('^'), S(), andExpression())));
+        return Sequence(andExpression(), ZeroOrMore(Sequence(Ch('^'), S(), andExpression())));
 	}
 
 	@AstCommand
 	public Rule inclusiveOrExpression() {
-        return sequence(exclusiveOrExpression(), zeroOrMore(sequence(ch('|'), S(), exclusiveOrExpression())));
+        return Sequence(exclusiveOrExpression(), ZeroOrMore(Sequence(Ch('|'), S(), exclusiveOrExpression())));
 	}
 
 	@AstCommand
 	public Rule conditionalAndExpression() {
-        return sequence(inclusiveOrExpression(), zeroOrMore(sequence(string("&&"), S(), inclusiveOrExpression())));
+        return Sequence(inclusiveOrExpression(), ZeroOrMore(Sequence(String("&&"), S(), inclusiveOrExpression())));
 	}
 
 	@AstCommand
 	public Rule conditionalOrExpression() {
-        return sequence(conditionalAndExpression(), zeroOrMore(sequence(string("||"), S(), conditionalAndExpression())));
+        return Sequence(conditionalAndExpression(), ZeroOrMore(Sequence(String("||"), S(), conditionalAndExpression())));
 	}
 
 	@AstCommand
 	public Rule assignmentLiteral() {
 		return
-			sequence(firstOf(string("+="), string("-="), string("*="), string("/="), string("&="), string("%="), string("|="), string("^="),
-					ch('=')), S());
+			Sequence(FirstOf(String("+="), String("-="), String("*="), String("/="), String("&="), String("%="), String("|="), String("^="),
+					Ch('=')), S());
 	}
 
 	@AstCommand
     public Rule assignment() {
-        return sequence(primaryExpression(), assignmentLiteral(), variableInitializer());
+        return Sequence(primaryExpression(), assignmentLiteral(), variableInitializer());
     }
 
 	@AstCommand
 	public Rule arrayInitializer() {
 		return
-			sequence(CURLYOPEN(), optional(sequence(variableInitializer(), zeroOrMore(sequence(COMMA(), variableInitializer())))),
+			Sequence(CURLYOPEN(), Optional(Sequence(variableInitializer(), ZeroOrMore(Sequence(COMMA(), variableInitializer())))),
 				CURLYCLOSE());
 	}
 
 	@AstCommand
 	public Rule variableInitializer() {
-		return firstOf(arrayInitializer(), expression());
+		return FirstOf(arrayInitializer(), expression());
 	}
 
 	public Rule expression() {
 		return
-			sequence(firstOf(conditionalOrExpression(), sequence(test(sequence(IDENTIFIER(), OPEN())), methodCallStatement()),
-					sequence(test(string("++")), preIncrementExpression()), sequence(test(string("--")), preDecrementExpression()),
-					sequence(test(sequence(primaryExpression(), string("++"))), postIncrementExpression()),
-					sequence(test(sequence(primaryExpression(), string("--"))), postDecrementExpression()), assignment()), S());
+			Sequence(FirstOf(conditionalOrExpression(), Sequence(Test(Sequence(IDENTIFIER(), OPEN())), methodCallStatement()),
+					Sequence(Test(String("++")), preIncrementExpression()), Sequence(Test(String("--")), preDecrementExpression()),
+					Sequence(Test(Sequence(primaryExpression(), String("++"))), postIncrementExpression()),
+					Sequence(Test(Sequence(primaryExpression(), String("--"))), postDecrementExpression()), assignment()), S());
 	}
 
 	@AstCommand
 	public Rule resultType() {
-		return firstOf(VOID(), type());
+		return FirstOf(VOID(), type());
 	}
 
 	@AstCommand
 	public Rule type() {
-		return firstOf(BOOL(), BYTE(), CHAR(), DOUBLE(), FLOAT(), INT(), LONG(), SHORT(), STRING(), FILEREADER(), FILEWRITER());
+		return FirstOf(BOOL(), BYTE(), CHAR(), DOUBLE(), FLOAT(), INT(), LONG(), SHORT(), STRING(), FILEREADER(), FILEWRITER());
 	}
 
 	@AstCommand
 	public Rule mappedBlock() {
-		return sequence(CURLYOPEN(), zeroOrMore(blockStatement()), CURLYCLOSE());
+		return Sequence(CURLYOPEN(), ZeroOrMore(blockStatement()), CURLYCLOSE());
 	}
 
 	@AstCommand
@@ -574,68 +574,68 @@ public class SplParser extends BaseParser<String> {
 
 	@AstCommand
 	public Rule mainDeclaratorId() {
-		return sequence(string("args"), zeroOrMore(sequence(SQUAREOPEN(), SQUARECLOSE())));
+		return Sequence(String("args"), ZeroOrMore(Sequence(SQUAREOPEN(), SQUARECLOSE())));
 	}
 
 	@AstCommand
 	public Rule mainParameter() {
-		return sequence(OPEN(), STRING(), mainDeclaratorId(), CLOSE());
+		return Sequence(OPEN(), STRING(), mainDeclaratorId(), CLOSE());
 	}
 
 	@AstCommand
 	public Rule mainMethodDeclarator() {
-		return sequence(string("main"), mainParameter());
+		return Sequence(String("main"), mainParameter());
 	}
 
 	@AstCommand
 	public Rule mainMethodDeclaration() {
-		return sequence(INT(), mainMethodDeclarator(), block());
+		return Sequence(INT(), mainMethodDeclarator(), block());
 	}
 
 	@AstCommand
 	public Rule formalParameter() {
-		return sequence(type(), variableDeclaratorId());
+		return Sequence(type(), variableDeclaratorId());
 	}
 
 	@AstCommand
 	public Rule formalParameters() {
-		return sequence(OPEN(), optional(sequence(formalParameter(), zeroOrMore(sequence(COMMA(), formalParameter())))), CLOSE());
+		return Sequence(OPEN(), Optional(Sequence(formalParameter(), ZeroOrMore(Sequence(COMMA(), formalParameter())))), CLOSE());
 	}
 
 	@AstCommand
 	public Rule methodDeclarator() {
-		return sequence(IDENTIFIER(), formalParameters());
+		return Sequence(IDENTIFIER(), formalParameters());
 	}
 
 	@AstCommand
 	public Rule methodDeclaration() {
-		return sequence(resultType(), methodDeclarator(), block());
+		return Sequence(resultType(), methodDeclarator(), block());
 	}
 
 	@AstCommand
 	public Rule variableDeclaratorId() {
-		return sequence(IDENTIFIER(), zeroOrMore(sequence(SQUAREOPEN(), SQUARECLOSE())));
+		return Sequence(IDENTIFIER(), ZeroOrMore(Sequence(SQUAREOPEN(), SQUARECLOSE())));
 	}
 
 	@AstCommand
 	public Rule variableDeclarator() {
-        return sequence(variableDeclaratorId(), optional(sequence(assignmentLiteral(), variableInitializer())));
+        return Sequence(variableDeclaratorId(), Optional(Sequence(assignmentLiteral(), variableInitializer())));
 	}
 
 	@AstCommand
 	public Rule varDeclaration() {
-		return sequence(type(), variableDeclarator(), zeroOrMore(sequence(COMMA(), variableDeclarator())));
+		return Sequence(type(), variableDeclarator(), ZeroOrMore(Sequence(COMMA(), variableDeclarator())));
 	}
 
 	@AstCommand
 	public Rule compilationUnit() {
 		return
-			sequence(S(), zeroOrMore(sequence(test(INCLUDE()), includeStatement())),
-				zeroOrMore(
-					sequence(testNot(sequence(INT(), string("main"), OPEN())), test(sequence(resultType(), IDENTIFIER(), OPEN())),
-						methodDeclaration())), zeroOrMore(sequence(test(sequence(type(), IDENTIFIER())), varDeclaration(), SEMICOLON())),
-				optional(
-					firstOf(sequence(test(sequence(INT(), string("main"), OPEN())), mainMethodDeclaration()), zeroOrMore(statement()))),
+			Sequence(S(), ZeroOrMore(Sequence(Test(INCLUDE()), includeStatement())),
+				ZeroOrMore(
+					Sequence(TestNot(Sequence(INT(), String("main"), OPEN())), Test(Sequence(resultType(), IDENTIFIER(), OPEN())),
+						methodDeclaration())), ZeroOrMore(Sequence(Test(Sequence(type(), IDENTIFIER())), varDeclaration(), SEMICOLON())),
+				Optional(
+					FirstOf(Sequence(Test(Sequence(INT(), String("main"), OPEN())), mainMethodDeclaration()), ZeroOrMore(statement()))),
 				EOI);
 	}
 }
